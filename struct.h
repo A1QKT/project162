@@ -2,6 +2,13 @@
 #define struct_h
 #include <string>
 using namespace std;
+
+struct login {
+    string role;
+    string username;
+    string pass;
+};
+
 struct student{
     // No, Student ID, First name, Last name, Gender, Date of Birth, Social ID.
     int No;
@@ -12,12 +19,21 @@ struct student{
     string DOB;
     int socialID;
 };
+
 struct Class{
     student* students;
 };
+
 struct course{
-    student* students;
+    string id;
+    string name;
+    string lecturer;
+    int credit; // number of credits
+    int max; // max number of students (default 50)
+    string date1, date2;
+    string session1, session2;
 };
+
 struct schoolyear{
     student* students;
 };
