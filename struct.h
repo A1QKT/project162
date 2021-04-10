@@ -18,10 +18,11 @@ struct student{
     int gender;
     string DOB;
     int socialID;
+    string classname;
 };
 
 struct Class{
-    student* students;
+    student* next;
 };
 
 struct course{
