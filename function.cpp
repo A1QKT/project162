@@ -56,3 +56,33 @@ void addStudentManually(string classname){
 void addStudentCSV(string link, string classname) {
 
 }
+
+// An
+void createSemester() {
+
+}
+
+//Ngan
+void courseRegistation(string year, string semester) {
+
+}
+
+//Chau
+void viewListofCourse(string year, string semester) {
+
+}
+
+//Khoi
+void updateCourse(string year, string semester, course course) {
+
+}
+
+//Ngan
+void deleteCourse(string year, string semester, course course) {
+
+}
+
+//An
+void addCourse(string year, string semester, course course) {
+
+}
