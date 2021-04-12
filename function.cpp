@@ -38,6 +38,7 @@ void createCourseSession(){
 	ofstream out_file("session.csv", std::ios_base::app);
 	out_file << start_date << "," << end_date << endl;
 	out_file.close();
+
 }
 
 //Ngan
