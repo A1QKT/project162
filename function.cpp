@@ -107,12 +107,20 @@ void createSemester() {
 //Ngan
 void courseRegistation(string year, int semester) {
 	ofstream fout;
-	fout.open(year + '-' + semester + ".txt");
+	string date1, date2;
+	fout.open(year + '_Semester' + semester + ".txt");
+	cout << "Please input start date: (Ex: 31/01/2020) ";
+	getline(cin, date1, '\n');
+	cout << "Please input end date: (Ex: 31/01/2020) ";
+	getline(cin, date2, '\n');
+	fout << date1 << endl << date2 << 0;
+	fout.close();
+
 }
 
 //Chau
 void viewListofCourse(string year, int semester) {
-
+	
 }
 
 //Khoi
@@ -121,8 +129,50 @@ void updateCourse(string year, int semester, course course) {
 }
 
 //Ngan
-void deleteCourse(string year, int semester, course course) {
-
+void deleteCourse(string year, int semester, course crs) {
+	ifstream fin;
+	ofstream fout;
+	fin.open(year + '_Semester' + semester + ".txt");
+	string d1, d2; int n;  bool check == false;
+	getline(fin, d1, '\n');
+	getline(fin, d2, '\n');
+	fin >> n; 
+	course* c = new course[n];
+	fin.ignore();
+	for (int i = 0; i < n; ++i) {
+		getline(fin, c[i].id, '\n');
+		if (c[i].id == crs.id)
+			check = true;
+		getline(fin, c[i].name, '\n');
+		getline(fin, c[i].lecturer, '\n');
+		fin >> c[i].credit; fin.ignore();
+		fin >> c[i].max; fin.ignore();
+		getline(fin, c[i].date1, '\n');
+		getline(fin, c[i].session1, '\n');
+		getline(fin, c[i].date2, '\n');
+		getline(fin, c[i].session2, '\n');
+	}
+	if (!check) {
+		cout << "Can not find this course." << endl;
+		fin.close(); return;
+	}
+	fin.close();
+	fout.open(year + '_Semester' + semester + ".txt");
+	fout << d1 << endl << d2 << endl << n - 1 << endl;
+	for (int i = 0; i < n; ++i) {
+		if (c[i].id == crs)
+			++i;
+		if (i < n) {
+			fout << c[i].id << endl << c[i].name << endl << c[i].lecturer << endl;
+			fout << c[i].credit << endl << c[i].max << endl << c[i].date1 << endl;
+			fout << c[i].session1 << endl << c[i].date2 << endl << c[i].session2;
+			if (i < n - 1)
+				fout << endl;
+		}
+	}
+	fout << "Successfully delete the course.";
+	delete[]c;
+	fout.close();
 }
 
 //An
