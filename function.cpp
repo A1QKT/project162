@@ -11,8 +11,35 @@ void createSchoolyear() {
 }
 //An
 void createClass() {
-
+	string class_name;
+	do {
+		cout << "Please enter the name of the new class: ";
+		getline(cin, class_name);
+		if (class_name.size() < 5) {
+			cout << "Length of name's class is not acceptable. " << endl;
+			system("pause");
+		}
+	} while (class_name.size() < 5);
+	//Make a list of classes in file CSV to check
+	ofstream out_file("classes.csv", std::ios_base::app);
+	out_file << class_name << endl;
+	out_file.close();
 }
+
+void createCourseSession(){
+	string start_date, end_date;
+	cout << "Please enter the start date of the course registration: ";
+	getline(cin, start_date);
+
+	cout << "Please enter the start date of the course registration: ";
+	getline(cin, end_date);
+
+	//Make a list of classes in file CSV to check
+	ofstream out_file("session.csv", std::ios_base::app);
+	out_file << start_date << "," << end_date << endl;
+	out_file.close();
+}
+
 //Ngan
 void addStudentManually(string classname){
 	ifstream fin;
