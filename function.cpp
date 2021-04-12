@@ -139,10 +139,10 @@ void createSemester() {
 }
 
 //Ngan
-void courseRegistation(string year, int semester) {
+void courseRegistation(string year, string semester) {
 	ofstream fout;
 	string date1, date2;
-	fout.open(year + '_Semester' + semester + ".txt");
+	fout.open(year + "_Semester" + semester + ".txt");
 	cout << "Please input start date: (Ex: 31/01/2020) ";
 	getline(cin, date1, '\n');
 	cout << "Please input end date: (Ex: 31/01/2020) ";
@@ -153,21 +153,21 @@ void courseRegistation(string year, int semester) {
 }
 
 //Chau
-void viewListofCourse(string year, int semester) {
+void viewListofCourse(string year, string semester) {
 	
 }
 
 //Khoi
-void updateCourse(string year, int semester, course course) {
+void updateCourse(string year, string semester, course course) {
 
 }
 
 //Ngan
-void deleteCourse(string year, int semester, course crs) {
+void deleteCourse(string year, string semester, course crs) {
 	ifstream fin;
 	ofstream fout;
-	fin.open(year + '_Semester' + semester + ".txt");
-	string d1, d2; int n;  bool check == false;
+	fin.open(year + "_Semester" + semester + ".txt");
+	string d1, d2; int n;  bool check = false;
 	getline(fin, d1, '\n');
 	getline(fin, d2, '\n');
 	fin >> n; 
@@ -191,7 +191,7 @@ void deleteCourse(string year, int semester, course crs) {
 		fin.close(); return;
 	}
 	fin.close();
-	fout.open(year + '_Semester' + semester + ".txt");
+	fout.open(year + "_Semester" + semester + ".txt");
 	fout << d1 << endl << d2 << endl << n - 1 << endl;
 	for (int i = 0; i < n; ++i) {
 		if (c[i].id == crs)
@@ -210,6 +210,6 @@ void deleteCourse(string year, int semester, course crs) {
 }
 
 //An
-void addCourse(string year, int semester, course course) {
+void addCourse(string year, string semester, course course) {
 
 }
