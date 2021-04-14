@@ -213,3 +213,23 @@ void deleteCourse(string year, string semester, course crs) {
 void addCourse(string year, string semester, course course) {
 
 }
+
+//An
+void enroll() {
+
+}
+
+//Khoi
+void viewListofClass() {
+
+}
+
+//Khoi
+void viewListofStdinClass(string classname) {
+	
+}
+
+//Chau
+void viewListofCourse(string year, string semester) {
+
+}
