@@ -91,11 +91,44 @@ void addStudentManually(string classname){
 	fout << newst.classname << "," << newst.gender << "," << newst.socialID;
 	fout.close();
 	delete[]st2;
+
+	ifstream ilog;
 	ofstream olog;
-	olog.open("login.txt", ios::app);
-	olog << endl;
-	olog << "student," << newst.studentID << "," << newst.studentID;
-	olog.close();
+	ilog.open("login.txt");
+	if (ilog.is_open())
+	{
+		ilog >> n;
+		ilog.ignore();
+		login* acc;
+		acc = new login[n];
+		for (int i = 0; i < n; ++i)
+		{
+			getline(ilog, acc[i].role, ',');
+			getline(ilog, acc[i].username, ',');
+			getline(ilog, acc[i].pass, '\n');
+		}
+		olog.open("login.txt");
+		if (olog.is_open())
+		{
+			olog << n + 1 << endl;
+			for (int i = 0; i < n; ++i)
+			{
+				olog << acc[i].role << ',';
+				olog << acc[i].username << ',';
+				olog << acc[i].pass << endl;
+			}
+			olog << "student," << newst.studentID << "," << newst.studentID;
+		}
+		olog.close(); ilog.close();
+		return;
+	}
+	else
+	{
+		cout << "Can not open source file"; ilog.close();
+		return;
+	}
+
+}
 }
 
 //Khoi
