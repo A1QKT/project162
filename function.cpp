@@ -214,22 +214,20 @@ void addCourse(string year, string semester, course course) {
 
 }
 
-//An
-void enroll() {
+//An: Enroll in a course (task 13)
 
-}
 
-//Khoi
+//Khoi: 17
 void viewListofClass() {
 
 }
 
-//Khoi
+//Khoi: 18
 void viewListofStdinClass(string classname) {
 	
 }
 
-//Chau
+//Chau: 19
 void viewListofCourse(string year, string semester) {
 
 }
