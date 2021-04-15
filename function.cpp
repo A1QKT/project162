@@ -135,42 +135,75 @@ void addStudentManually(string classname){
 
 }
 //Khoi
-void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstream& fin) {
-	int nfileAdd, nfileIsAdded;
-	string temp, result;
-	vector<string> infoStudents(8);
-	fin.open(fileAdd);
+void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstream& fin, ofstream fout) {
+	//int No; string studentID; string firstname;string lastname;int gender;string DOB;int socialID;string classname;
+	string temp;
+	int nAdd, nIsAdded;
+	vector<string> result(8);
+	fin.open(fileIsAdded);
 	if(fin.is_open()){
-		string temp1;
-		getline(fin, temp1);
-		stringstream inputN(temp1);
-		inputN >> nfileAdd;
-		fin.ignore();
-		fin.open(fileIsAdded);
+		getline(fin, temp);
+		nIsAdded = stoi(temp);
+		fin.open(fileAdd);
 		if(fin.is_open()){
-			
+			getline(fin, temp);
+			nAdd = stoi(temp);
 		}
 		fin.close();
+		students = new student[nAdd + nIsAdded];
+		int j = 0;
 		while(getline(fin, temp)){
 			stringstream split(temp);
 			int i = 0;
-			while(getline(split, result, ',')){
-				infoStudents[i] = result;
+			while(getline(split, result[i], ','))
 				i++;
-			}
-			stringstream no(infoStudents[0]), id(infoStudents[1]), gender(infoStudents[4]), socialid(infoStudents[6]);
-			no >> students[j].No;
-			id >> students[j].studentID;
-			students[j].firstname = infoStudents[2];
-			students[j].lastname = infoStudents[3];
-			gender >> students[j].gender;
-			students[j].DOB = infoStudents[5];
-			socialid >> students[j].socialID;
-			students[j].classname = infoStudents[7];
+			students[j].No = stoi(result[0]);
+			students[j].studentID = result[1];
+			students[j].firstname = result[2];
+			students[j].lastname = result[3];
+			students[j].gender = stoi(result[4]);
+			students[j].DOB = result[5];
+			students[j].socialID = stoi(result[6]);
+			students[j].classname = result[7];
+			j++;
 		}
 	}
-	
 	fin.close();
+	fin.open(fileAdd);
+	if(fin.is_open()){
+		fin >> temp;
+		int j = nIsAdded;
+		while(getline(fin, temp)){
+			stringstream split(temp);
+			int i = 0;
+			while(getline(split, result[i], ','))
+				i++;
+			students[j].No = stoi(result[0]);
+			students[j].studentID = result[1];
+			students[j].firstname = result[2];
+			students[j].lastname = result[3];
+			students[j].gender = stoi(result[4]);
+			students[j].DOB = result[5];
+			students[j].socialID = stoi(result[6]);
+			students[j].classname = result[7];
+			j++;
+	}
+	fin.close();
+	fout.open(fileIsAdded);
+	if(fout.is_open()){
+		fout << nAdd + nIsAdded;
+		for(int i = 0; i < nAdd + nIsAdded; i++){
+			fout << students[j].No << endl;
+			fout << students[j].studentID << endl;
+			fout << students[j].firstname << endl;
+			fout << students[j].lastname << endl;
+			fout << students[j].gender << endl;
+			fout << students[j].DOB << endl;
+			fout << students[j].socialID << endl;
+			fout << students[j].classname << endl;
+		}
+	}
+	fout.close();
 }
 
 // An
@@ -189,11 +222,6 @@ void courseRegistation(string year, string semester) {
 	getline(cin, date2, '\n');
 	fout << date1 << endl << date2 << 0;
 	fout.close();
-
-}
-
-//Chau
-void viewListofCourse(string year, string semester) {
 
 }
 
