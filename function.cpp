@@ -6,8 +6,14 @@
 #include<vector>
 using namespace std;
 //Chau
-void createSchoolyear() {
+void createSchoolyear(string year) {
+	ofstream fout;
 
+    cout << "Which year do you want to create: ";
+    cin >> year;
+
+    fout.open("year" + year + ".txt", ios::app);
+    fout.close();
 }
 //An
 void createClass() {
@@ -41,7 +47,7 @@ void addStudentManually(string classname){
 	}
 	cout << "Social ID: ";
 	cin >> newst.socialID;
-	
+
 	fin.open(classname + ".txt");
 	fin >> n;
 	student* st = new student[n];
@@ -187,7 +193,7 @@ void courseRegistation(string year, string semester) {
 
 //Chau
 void viewListofCourse(string year, string semester) {
-	
+
 }
 
 //Khoi
@@ -212,7 +218,7 @@ void deleteCourse(string year, string semester, course crs) {
 >>>>>>> refs/remotes/origin/main
 	getline(fin, d1, '\n');
 	getline(fin, d2, '\n');
-	fin >> n; 
+	fin >> n;
 	course* c = new course[n];
 	fin.ignore();
 	for (int i = 0; i < n; ++i) {
@@ -266,7 +272,7 @@ void viewListofClass() {
 
 //Khoi: 18
 void viewListofStdinClass(string classname) {
-	
+
 }
 
 //Chau: 19
