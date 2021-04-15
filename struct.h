@@ -12,17 +12,13 @@ struct login {
 struct student{
     // No, Student ID, First name, Last name, Gender, Date of Birth, Social ID.
     int No;
-    int studentID;
+    string studentID;
     string firstname;
     string lastname;
     int gender;
     string DOB;
     int socialID;
     string classname;
-};
-
-struct Class{
-    student* next;
 };
 
 struct course{

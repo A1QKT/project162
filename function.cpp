@@ -6,8 +6,14 @@
 #include<vector>
 using namespace std;
 //Chau
-void createSchoolyear() {
+void createSchoolyear(string year) {
+	ofstream fout;
 
+    cout << "Which year do you want to create: ";
+    cin >> year;
+
+    fout.open("year" + year + ".txt", ios::app);
+    fout.close();
 }
 //An
 void createClass() {
@@ -20,11 +26,12 @@ void addStudentManually(string classname){
 	student newst;
 	int n;
 	fin.open(classname + ".txt",ios::app);
-	if (!fout.is_open()) {
+	if (!fout.is_open()) 
+	{
 		cout << "This class does not exist." << endl;
 		fout.close(); return;
 	}
-	cout << "ID: "; cin >>  newst.studentID;
+	cout << "ID: "; getline(cin,newst.studentID,'\n');
 	cout << "First name: ";
 	cin.ignore(100, '\n');
 	getline(cin, newst.firstname, '\n');
@@ -41,13 +48,12 @@ void addStudentManually(string classname){
 	}
 	cout << "Social ID: ";
 	cin >> newst.socialID;
-	
+
 	fin.open(classname + ".txt");
 	fin >> n;
 	student* st = new student[n];
 	for (int i = 0; i < n; ++i) {
-		fin >> st[i].studentID;
-		fin.ignore(100,'\n');
+		getline(fin,st[i].studentID,',');
 		getline(fin, st[i].firstname, ',');
 		getline(fin, st[i].lastname, ',');
 		getline(fin, st[i].DOB, ',');
@@ -70,8 +76,7 @@ void addStudentManually(string classname){
 	fin >> n;
 	student* st2 = new student[n];
 	for (int i = 0; i < n; ++i) {
-		fin >> st2[i].studentID;
-		fin.ignore(100, '\n');
+		getline(fin, st2[i].studentID, ',');
 		getline(fin, st2[i].firstname, ',');
 		getline(fin, st2[i].lastname, ',');
 		getline(fin, st2[i].DOB, ',');
@@ -189,7 +194,7 @@ void courseRegistation(string year, string semester) {
 
 //Chau
 void viewListofCourse(string year, string semester) {
-	
+
 }
 
 //Khoi
@@ -231,7 +236,7 @@ void deleteCourse(string year, string semester, course crs) {
 	string d1, d2; int n;  bool check = false;
 	getline(fin, d1, '\n');
 	getline(fin, d2, '\n');
-	fin >> n; 
+	fin >> n;
 	course* c = new course[n];
 	fin.ignore();
 	for (int i = 0; i < n; ++i) {
@@ -285,7 +290,7 @@ void viewListofClass() {
 
 //Khoi: 18
 void viewListofStdinClass(string classname) {
-	
+
 }
 
 //Chau: 19
