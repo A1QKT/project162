@@ -91,11 +91,44 @@ void addStudentManually(string classname){
 	fout << newst.classname << "," << newst.gender << "," << newst.socialID;
 	fout.close();
 	delete[]st2;
+
+	ifstream ilog;
 	ofstream olog;
-	olog.open("login.txt", ios::app);
-	olog << endl;
-	olog << "student," << newst.studentID << "," << newst.studentID;
-	olog.close();
+	ilog.open("login.txt");
+	if (ilog.is_open())
+	{
+		ilog >> n;
+		ilog.ignore();
+		login* acc;
+		acc = new login[n];
+		for (int i = 0; i < n; ++i)
+		{
+			getline(ilog, acc[i].role, ',');
+			getline(ilog, acc[i].username, ',');
+			getline(ilog, acc[i].pass, '\n');
+		}
+		olog.open("login.txt");
+		if (olog.is_open())
+		{
+			olog << n + 1 << endl;
+			for (int i = 0; i < n; ++i)
+			{
+				olog << acc[i].role << ',';
+				olog << acc[i].username << ',';
+				olog << acc[i].pass << endl;
+			}
+			olog << "student," << newst.studentID << "," << newst.studentID;
+		}
+		olog.close(); ilog.close();
+		return;
+	}
+	else
+	{
+		cout << "Can not open source file"; ilog.close();
+		return;
+	}
+
+}
 }
 
 //Khoi
@@ -139,10 +172,10 @@ void createSemester() {
 }
 
 //Ngan
-void courseRegistation(string year, int semester) {
+void courseRegistation(string year, string semester) {
 	ofstream fout;
 	string date1, date2;
-	fout.open(year + '_Semester' + semester + ".txt");
+	fout.open(year + "_Semester" + semester + ".txt");
 	cout << "Please input start date: (Ex: 31/01/2020) ";
 	getline(cin, date1, '\n');
 	cout << "Please input end date: (Ex: 31/01/2020) ";
@@ -153,21 +186,30 @@ void courseRegistation(string year, int semester) {
 }
 
 //Chau
-void viewListofCourse(string year, int semester) {
+void viewListofCourse(string year, string semester) {
 	
 }
 
 //Khoi
+<<<<<<< HEAD
 void updateCourse(string year, int semester, course course) {
 	course.s
+=======
+void updateCourse(string year, string semester, course course) {
+
+>>>>>>> refs/remotes/origin/main
 }
 
 //Ngan
-void deleteCourse(string year, int semester, course crs) {
+void deleteCourse(string year, string semester, course crs) {
 	ifstream fin;
 	ofstream fout;
 	fin.open(year + "_Semester" + semester + ".txt");
+<<<<<<< HEAD
 	string d1, d2; int n;  bool check == false;
+=======
+	string d1, d2; int n;  bool check = false;
+>>>>>>> refs/remotes/origin/main
 	getline(fin, d1, '\n');
 	getline(fin, d2, '\n');
 	fin >> n; 
@@ -191,7 +233,7 @@ void deleteCourse(string year, int semester, course crs) {
 		fin.close(); return;
 	}
 	fin.close();
-	fout.open(year + '_Semester' + semester + ".txt");
+	fout.open(year + "_Semester" + semester + ".txt");
 	fout << d1 << endl << d2 << endl << n - 1 << endl;
 	for (int i = 0; i < n; ++i) {
 		if (c[i].id == crs)
@@ -210,6 +252,24 @@ void deleteCourse(string year, int semester, course crs) {
 }
 
 //An
-void addCourse(string year, int semester, course course) {
+void addCourse(string year, string semester, course course) {
+
+}
+
+//An: Enroll in a course (task 13)
+
+
+//Khoi: 17
+void viewListofClass() {
+
+}
+
+//Khoi: 18
+void viewListofStdinClass(string classname) {
+	
+}
+
+//Chau: 19
+void viewListofCourse(string year, string semester) {
 
 }
