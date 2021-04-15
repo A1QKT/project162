@@ -24,7 +24,7 @@ void addStudentManually(string classname){
 		cout << "This class does not exist." << endl;
 		fout.close(); return;
 	}
-	cout << "ID: "; cin >>  newst.studentID;
+	cout << "ID: "; getline(cin,newst.studentID,'\n');
 	cout << "First name: ";
 	cin.ignore(100, '\n');
 	getline(cin, newst.firstname, '\n');
@@ -46,8 +46,7 @@ void addStudentManually(string classname){
 	fin >> n;
 	student* st = new student[n];
 	for (int i = 0; i < n; ++i) {
-		fin >> st[i].studentID;
-		fin.ignore(100,'\n');
+		getline(fin,st[i].studentID,',');
 		getline(fin, st[i].firstname, ',');
 		getline(fin, st[i].lastname, ',');
 		getline(fin, st[i].DOB, ',');
@@ -70,8 +69,7 @@ void addStudentManually(string classname){
 	fin >> n;
 	student* st2 = new student[n];
 	for (int i = 0; i < n; ++i) {
-		fin >> st2[i].studentID;
-		fin.ignore(100, '\n');
+		getline(fin, st2[i].studentID, ',');
 		getline(fin, st2[i].firstname, ',');
 		getline(fin, st2[i].lastname, ',');
 		getline(fin, st2[i].DOB, ',');
