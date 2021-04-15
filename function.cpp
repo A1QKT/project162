@@ -129,8 +129,6 @@ void addStudentManually(string classname){
 	}
 
 }
-}
-
 //Khoi
 void addStudentCSV(string link, student* &students, ifstream& fin) {
 	string temp, result;
@@ -191,13 +189,34 @@ void viewListofCourse(string year, string semester) {
 }
 
 //Khoi
-<<<<<<< HEAD
-void updateCourse(string year, int semester, course course) {
-	course.s
-=======
-void updateCourse(string year, string semester, course course) {
-
->>>>>>> refs/remotes/origin/main
+void updateCourse(string year, int semester, course a) {
+	/*student* students;
+    string id;
+    string name;
+    string lecturer;
+    int credit; // number of credits
+    int max; // max number of students (default 50)
+    string date1, date2;
+    string session1, session2;*/
+		cout << "input id: ";
+		getline(cin, a.id);
+		cout << "input name: ";
+		getline(cin, a.name);
+		cout << "input lecturer: ";
+		getline(cin, a.lecturer);
+		cout << "input credit: ";
+		cin >> a.credit;
+		cout << "input max student: ";
+		cin >> a.max;
+		cout << "input id: ";
+		cout << "input date1: ";
+		getline(cin, a.date1); 
+		cout << "input date2: ";
+		getline(cin, a.date2);
+		cout << "input session1: ";
+		getline(cin, a.session1);
+		cout << "input session2: ";
+		getline(cin, a.session2);
 }
 
 //Ngan
@@ -205,11 +224,7 @@ void deleteCourse(string year, string semester, course crs) {
 	ifstream fin;
 	ofstream fout;
 	fin.open(year + "_Semester" + semester + ".txt");
-<<<<<<< HEAD
-	string d1, d2; int n;  bool check == false;
-=======
 	string d1, d2; int n;  bool check = false;
->>>>>>> refs/remotes/origin/main
 	getline(fin, d1, '\n');
 	getline(fin, d2, '\n');
 	fin >> n; 
