@@ -159,14 +159,14 @@ void viewListofCourse(string year, int semester) {
 
 //Khoi
 void updateCourse(string year, int semester, course course) {
-
+	course.s
 }
 
 //Ngan
 void deleteCourse(string year, int semester, course crs) {
 	ifstream fin;
 	ofstream fout;
-	fin.open(year + '_Semester' + semester + ".txt");
+	fin.open(year + "_Semester" + semester + ".txt");
 	string d1, d2; int n;  bool check == false;
 	getline(fin, d1, '\n');
 	getline(fin, d2, '\n');
