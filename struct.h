@@ -21,10 +21,6 @@ struct student{
     string classname;
 };
 
-struct Class{
-    student* next;
-};
-
 struct course{
     student* students;
     string id;
