@@ -26,7 +26,8 @@ void addStudentManually(string classname){
 	student newst;
 	int n;
 	fin.open(classname + ".txt",ios::app);
-	if (!fout.is_open()) {
+	if (!fout.is_open()) 
+	{
 		cout << "This class does not exist." << endl;
 		fout.close(); return;
 	}
