@@ -131,26 +131,21 @@ void addStudentManually(string classname){
 }
 //Khoi
 void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstream& fin) {
-	int n;
+	int nfileAdd, nfileIsAdded;
 	string temp, result;
 	vector<string> infoStudents(8);
-	fin.open(fileIsAdded);
-	if(fin.is_open()){
-		string temp1;
-		getline(fin, temp1);
-		stringstream in(temp1);
-		in >> n;
-		
-	}
 	fin.open(fileAdd);
 	if(fin.is_open()){
 		string temp1;
 		getline(fin, temp1);
-		int n;
 		stringstream inputN(temp1);
-		inputN >> n;
+		inputN >> nfileAdd;
 		fin.ignore();
-		int j = 0;
+		fin.open(fileIsAdded);
+		if(fin.is_open()){
+			
+		}
+		fin.close();
 		while(getline(fin, temp)){
 			stringstream split(temp);
 			int i = 0;
@@ -158,7 +153,6 @@ void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstr
 				infoStudents[i] = result;
 				i++;
 			}
-			//int No;int studentID;string firstname;string lastname;int gender;string DOB;int socialID;string classname;
 			stringstream no(infoStudents[0]), id(infoStudents[1]), gender(infoStudents[4]), socialid(infoStudents[6]);
 			no >> students[j].No;
 			id >> students[j].studentID;
