@@ -130,10 +130,19 @@ void addStudentManually(string classname){
 
 }
 //Khoi
-void addStudentCSV(string link, student* &students, ifstream& fin) {
+void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstream& fin) {
+	int n;
 	string temp, result;
 	vector<string> infoStudents(8);
-	fin.open(link);
+	fin.open(fileIsAdded);
+	if(fin.is_open()){
+		string temp1;
+		getline(fin, temp1);
+		stringstream in(temp1);
+		in >> n;
+		
+	}
+	fin.open(fileAdd);
 	if(fin.is_open()){
 		string temp1;
 		getline(fin, temp1);
@@ -161,6 +170,7 @@ void addStudentCSV(string link, student* &students, ifstream& fin) {
 			students[j].classname = infoStudents[7];
 		}
 	}
+	
 	fin.close();
 }
 
