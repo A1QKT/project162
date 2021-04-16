@@ -20,20 +20,19 @@ void createClass() {
 
 }
 //Ngan
-void addStudentManually(string classname){
+void addStudentManually(string classname) {
 	ifstream fin;
 	ofstream fout;
 	student newst;
 	int n;
-	fin.open(classname + ".txt",ios::app);
-	if (!fout.is_open()) 
+	fin.open(classname + ".txt");
+	if (!fin.is_open())
 	{
 		cout << "This class does not exist." << endl;
-		fout.close(); return;
+		fin.close(); return;
 	}
-	cout << "ID: "; getline(cin,newst.studentID,'\n');
+	cout << "ID: "; getline(cin, newst.studentID, '\n');
 	cout << "First name: ";
-	cin.ignore(100, '\n');
 	getline(cin, newst.firstname, '\n');
 	cout << "Last name: ";
 	getline(cin, newst.lastname, '\n');
@@ -49,33 +48,39 @@ void addStudentManually(string classname){
 	cout << "Social ID: ";
 	cin >> newst.socialID;
 
-	fin.open(classname + ".txt");
+
 	fin >> n;
+	cout << n;
 	student* st = new student[n];
 	for (int i = 0; i < n; ++i) {
-		getline(fin,st[i].studentID,',');
+		fin >> st[i].No; fin.ignore();
+		getline(fin, st[i].studentID, ',');
 		getline(fin, st[i].firstname, ',');
 		getline(fin, st[i].lastname, ',');
 		getline(fin, st[i].DOB, ',');
 		getline(fin, st[i].classname, ',');
 		fin >> st[i].gender;
-		fin >> st[i].socialID;
+		fin.ignore();
+		fin >> st[i].socialID; fin.ignore();
+
 	}
 	fin.close();
 	fout.open(classname + ".txt");
-	fout << n+1 << endl;
+	fout << n + 1 << endl;
 	for (int i = 0; i < n; ++i) {
-		fout << st[i].studentID << "," << st[i].firstname << "," << st[i].lastname << "," << st[i].DOB << ",";
+		fout << st[i].No << "," << st[i].studentID << "," << st[i].firstname << "," << st[i].lastname << "," << st[i].DOB << ",";
 		fout << st[i].classname << "," << st[i].gender << "," << st[i].socialID << endl;
 	}
-	fout << newst.studentID << "," << newst.firstname << "," << newst.lastname << "," << newst.DOB << ",";
+	fout << n + 1 << "," << newst.studentID << "," << newst.firstname << "," << newst.lastname << "," << newst.DOB << ",";
 	fout << newst.classname << "," << newst.gender << "," << newst.socialID;
+	newst.No = n + 1;
 	fout.close();
 	delete[]st;
 	fin.open("student.txt");
 	fin >> n;
 	student* st2 = new student[n];
 	for (int i = 0; i < n; ++i) {
+		fin >> st2[i].No; fin.ignore();
 		getline(fin, st2[i].studentID, ',');
 		getline(fin, st2[i].firstname, ',');
 		getline(fin, st2[i].lastname, ',');
@@ -84,15 +89,16 @@ void addStudentManually(string classname){
 		fin >> st2[i].gender;
 		fin.ignore();
 		fin >> st2[i].socialID;
+		fin.ignore();
 	}
 	fin.close();
 	fout.open("student.txt");
 	fout << n + 1;
 	for (int i = 0; i < n; ++i) {
-		fout << st2[i].studentID << "," << st2[i].firstname << "," << st2[i].lastname << "," << st2[i].DOB << ",";
+		fout << st2[i].No << "," << st2[i].studentID << "," << st2[i].firstname << "," << st2[i].lastname << "," << st2[i].DOB << ",";
 		fout << st2[i].classname << "," << st2[i].gender << "," << st2[i].socialID << endl;
 	}
-	fout << newst.studentID << "," << newst.firstname << "," << newst.lastname << "," << newst.DOB << ",";
+	fout << newst.No << "," << newst.studentID << "," << newst.firstname << "," << newst.lastname << "," << newst.DOB << ",";
 	fout << newst.classname << "," << newst.gender << "," << newst.socialID;
 	fout.close();
 	delete[]st2;
@@ -100,24 +106,20 @@ void addStudentManually(string classname){
 	ifstream ilog;
 	ofstream olog;
 	ilog.open("login.txt");
-	if (ilog.is_open())
-	{
+	if (ilog.is_open())	{
 		ilog >> n;
 		ilog.ignore();
 		login* acc;
 		acc = new login[n];
-		for (int i = 0; i < n; ++i)
-		{
+		for (int i = 0; i < n; ++i)		{
 			getline(ilog, acc[i].role, ',');
 			getline(ilog, acc[i].username, ',');
 			getline(ilog, acc[i].pass, '\n');
 		}
 		olog.open("login.txt");
-		if (olog.is_open())
-		{
+		if (olog.is_open())		{
 			olog << n + 1 << endl;
-			for (int i = 0; i < n; ++i)
-			{
+			for (int i = 0; i < n; ++i)			{
 				olog << acc[i].role << ',';
 				olog << acc[i].username << ',';
 				olog << acc[i].pass << endl;
@@ -127,13 +129,12 @@ void addStudentManually(string classname){
 		olog.close(); ilog.close();
 		return;
 	}
-	else
-	{
+	else	{
 		cout << "Can not open source file"; ilog.close();
 		return;
 	}
-
 }
+
 //Khoi
 void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstream& fin, ofstream fout) {
 	//int No; string studentID; string firstname;string lastname;int gender;string DOB;int socialID;string classname;
