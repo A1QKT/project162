@@ -135,48 +135,76 @@ void addStudentManually(string classname){
 
 }
 //Khoi
-void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstream& fin) {
-	int n;
-	string temp, result;
-	vector<string> infoStudents(8);
+void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstream& fin, ofstream fout) {
+	//int No; string studentID; string firstname;string lastname;int gender;string DOB;int socialID;string classname;
+	string temp;
+	int nAdd, nIsAdded;
+	vector<string> result(8);
 	fin.open(fileIsAdded);
 	if(fin.is_open()){
-		string temp1;
-		getline(fin, temp1);
-		stringstream in(temp1);
-		in >> n;
-		
-	}
-	fin.open(fileAdd);
-	if(fin.is_open()){
-		string temp1;
-		getline(fin, temp1);
-		int n;
-		stringstream inputN(temp1);
-		inputN >> n;
-		fin.ignore();
+		getline(fin, temp);
+		nIsAdded = stoi(temp);
+		fin.open(fileAdd);
+		if(fin.is_open()){
+			getline(fin, temp);
+			nAdd = stoi(temp);
+		}
+		fin.close();
+		students = new student[nAdd + nIsAdded];
 		int j = 0;
 		while(getline(fin, temp)){
 			stringstream split(temp);
 			int i = 0;
-			while(getline(split, result, ',')){
-				infoStudents[i] = result;
+			while(getline(split, result[i], ','))
 				i++;
-			}
-			//int No;int studentID;string firstname;string lastname;int gender;string DOB;int socialID;string classname;
-			stringstream no(infoStudents[0]), id(infoStudents[1]), gender(infoStudents[4]), socialid(infoStudents[6]);
-			no >> students[j].No;
-			id >> students[j].studentID;
-			students[j].firstname = infoStudents[2];
-			students[j].lastname = infoStudents[3];
-			gender >> students[j].gender;
-			students[j].DOB = infoStudents[5];
-			socialid >> students[j].socialID;
-			students[j].classname = infoStudents[7];
+			students[j].No = stoi(result[0]);
+			students[j].studentID = result[1];
+			students[j].firstname = result[2];
+			students[j].lastname = result[3];
+			students[j].gender = stoi(result[4]);
+			students[j].DOB = result[5];
+			students[j].socialID = stoi(result[6]);
+			students[j].classname = result[7];
+			j++;
 		}
 	}
-	
 	fin.close();
+	fin.open(fileAdd);
+	if(fin.is_open()){
+		fin >> temp;
+		int j = nIsAdded;
+		while(getline(fin, temp)){
+			stringstream split(temp);
+			int i = 0;
+			while(getline(split, result[i], ','))
+				i++;
+			students[j].No = stoi(result[0]);
+			students[j].studentID = result[1];
+			students[j].firstname = result[2];
+			students[j].lastname = result[3];
+			students[j].gender = stoi(result[4]);
+			students[j].DOB = result[5];
+			students[j].socialID = stoi(result[6]);
+			students[j].classname = result[7];
+			j++;
+		}
+	}
+	fin.close();
+	fout.open(fileIsAdded);
+	if(fout.is_open()){
+		fout << nAdd + nIsAdded;
+		for(int i = 0; i < nAdd + nIsAdded; i++){
+			fout << students[i].No << endl;
+			fout << students[i].studentID << endl;
+			fout << students[i].firstname << endl;
+			fout << students[i].lastname << endl;
+			fout << students[i].gender << endl;
+			fout << students[i].DOB << endl;
+			fout << students[i].socialID << endl;
+			fout << students[i].classname << endl;
+		}
+	}
+	fout.close();
 }
 
 // An
@@ -198,13 +226,8 @@ void courseRegistation(string year, string semester) {
 
 }
 
-//Chau
-void viewListofCourse(string year, string semester) {
-
-}
-
 //Khoi
-void updateCourse(string year, int semester, course a) {
+void updateCourse(string Course) {
 	/*student* students;
     string id;
     string name;
@@ -213,6 +236,9 @@ void updateCourse(string year, int semester, course a) {
     int max; // max number of students (default 50)
     string date1, date2;
     string session1, session2;*/
+	ofstream fout;
+	ifstream fin;
+	course a;
 		cout << "input id: ";
 		getline(cin, a.id);
 		cout << "input name: ";
@@ -223,7 +249,6 @@ void updateCourse(string year, int semester, course a) {
 		cin >> a.credit;
 		cout << "input max student: ";
 		cin >> a.max;
-		cout << "input id: ";
 		cout << "input date1: ";
 		getline(cin, a.date1); 
 		cout << "input date2: ";
@@ -232,6 +257,55 @@ void updateCourse(string year, int semester, course a) {
 		getline(cin, a.session1);
 		cout << "input session2: ";
 		getline(cin, a.session2);
+	int tempint;
+	string temp;
+	fin.open(Course);
+	if(fin.is_open()){
+		// skip 9th line
+		for(int i = 0; i < 9; i++){
+			if(i == 3 && i == 4){
+				fin >> tempint;
+			}
+			else getline(fin, temp);
+		}
+		fin >> tempint;
+		a.students = new student[tempint];
+		for(int j = 0; j < tempint; j++){
+			fin >> a.students[j].No;
+			fin >> a.students[j].studentID;
+			fin >> a.students[j].firstname;
+			fin >> a.students[j].lastname;
+			fin >> a.students[j].gender;
+			fin >> a.students[j].DOB;
+			fin >> a.students[j].socialID;
+			fin >> a.students[j].classname;
+		}
+	}
+	fin.close();
+	fout.open(Course);
+	if(fout.is_open()){
+		fout << a.id << endl;
+		fout << a.name << endl;
+		fout << a.lecturer << endl;
+		fout << a.credit << endl;
+		fout << a.max << endl;
+		fout << a.date1 << endl;
+		fout << a.date2 << endl;
+		fout << a.session1 << endl;
+		fout << a.session2 << endl;
+		fout << tempint;
+		for(int j = 0; j < tempint; j++){
+			fout << a.students[j].No << endl;
+			fout << a.students[j].studentID << endl;
+			fout << a.students[j].firstname << endl;
+			fout << a.students[j].lastname << endl;
+			fout << a.students[j].gender << endl; 
+			fout << a.students[j].DOB << endl;
+			fout << a.students[j].socialID << endl;
+			fout << a.students[j].classname << endl;	
+		}
+	}
+	fout.close();
 }
 
 //Ngan
@@ -290,13 +364,28 @@ void addCourse(string year, string semester, course course) {
 
 
 //Khoi: 17
-void viewListofClass() {
-
+void viewListofClass(string _class) {
+	ifstream fin;
+	string temp;
+	fin.open(_class);
+	if(fin.is_open()){
+		while(fin >> temp){
+			cout << temp << endl;
+		}
+	}
+	fin.close();
 }
 
 //Khoi: 18
 void viewListofStdinClass(string classname) {
-
+	ifstream fin;
+	string a;
+	fin.open(classname);
+	if(fin.is_open()){
+		fin >> a;
+		cout << a << endl;
+	}
+	fin.close();
 }
 
 //Chau: 19

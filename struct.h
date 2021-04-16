@@ -34,5 +34,6 @@ struct course{
 
 struct schoolyear{
     student* students;
+    string* classname;
 };
 #endif
