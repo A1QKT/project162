@@ -303,3 +303,40 @@ void viewListofStdinClass(string classname) {
 void viewListofCourse(string year, string semester) {
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bool checkLogin(login& currentacc) {
+	ifstream fin;
+	fin.open("login.txt");
+	int n; fin >> n;
+	fin.ignore();
+	login* acc = new login[n];
+	for (int i = 0; i < n; ++i) {
+		getline(fin, acc[i].role, ',');
+		getline(fin, acc[i].username, ',');
+		getline(fin, acc[i].pass, '\n');
+		if (currentacc.username == acc[i].username && currentacc.pass == acc[i].pass) {
+			currentacc.role = acc[i].role;
+			delete[]acc; fin.close(); return true;
+		}
+	}
+	delete[]acc;
+	fin.close(); return false;
+}
