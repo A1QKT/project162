@@ -2,7 +2,9 @@
 #define struct_h
 #include <string>
 using namespace std;
-
+struct staff {
+    string name, DOB, gender, username;
+};
 struct login {
     string role;
     string username;
@@ -36,4 +38,5 @@ struct schoolyear{
     student* students;
     string* classname;
 };
+
 #endif
