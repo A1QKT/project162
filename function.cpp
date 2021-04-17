@@ -430,3 +430,87 @@ bool checkLogin(login& currentacc) {
 	delete[]acc;
 	fin.close(); return false;
 }
+
+void viewProfile(login& currentacc)
+{
+	system("cls");
+	if (currentacc.role == "staff") {
+		staff s;
+		ifstream fin("staff.txt");
+		while (!fin.eof())
+		{
+			getline(fin, s.username, ',');
+			if (s.username == currentacc.username)
+			{
+				getline(fin, s.name, ',');
+				getline(fin, s.DOB, ',');
+				getline(fin, s.gender, '\n');
+				cout << "Username:          " << s.username << endl;
+				cout << "Fullname:          " << s.name << endl;
+				cout << "Gender:            " << s.gender << endl;
+				cout << "Date of birth:     " << s.DOB << endl;
+				break;
+			}
+			else fin.ignore(100, '\n');
+		}
+		fin.close();
+		cout << "Press any key to back to menu.  ";
+		cin.get();
+		StaffMenu(currentacc);
+	}
+	ifstream fin("student.txt");
+	int n; student s;
+	fin >> n; fin.ignore();
+	for (int i = 0; i < n; ++i) {
+		fin >> s.No; fin.ignore();
+		//cout << s.No;
+		getline(fin, s.studentID, ',');
+		if (s.studentID == currentacc.username) {
+			getline(fin, s.firstname, ',');
+			getline(fin, s.lastname, ',');
+			getline(fin, s.DOB, ',');
+			getline(fin, s.classname, ',');
+			fin >> s.gender;
+			fin.ignore();
+			fin >> s.socialID;
+			cout << "Username:        " << s.studentID << endl;
+			cout << "First name:      " << s.firstname << endl;
+			cout << "Last name:       " << s.lastname << endl;
+			cout << "Class:           " << s.classname << endl;
+			cout << "Gender:          ";
+			if (s.gender == 1)
+				cout << "Male" << endl;
+			else cout << "Female" << endl;
+			cout << "Social ID:       " << s.socialID << endl;
+			break;
+		}
+		else fin.ignore(100, '\n');
+	}
+	fin.close();
+	cout << "Press enter to back to menu.  ";
+	cin.get();
+	StudentMenu(currentacc);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------Menu---------------------------------
+void StaffMenu(login& currentacc) {
+
+}
+
+void StudentMenu(login& currentacc) {
+
+}
