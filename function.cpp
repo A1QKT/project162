@@ -239,5 +239,13 @@ void deleteCourse(string year, string semester, course crs) {
 
 //An
 void addCourse(string year, string semester, course course) {
-
+	cout << "Add a course for this semester: ";
+	cout << "Insert course id: ";
+	cin >> course.id;
+	cout << "Insert course name: ";
+	cin >> course.name;
+	cout << "Insert course credit: ";
+	cin >> course.lecturer;
+	cout << "Insert number of students that can enroll for this course: ";
+	cin >> course.max;
 }
