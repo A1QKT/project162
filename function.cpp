@@ -15,11 +15,11 @@ void createClass() {
 	do {
 		cout << "Please enter the name of the new class: ";
 		getline(cin, class_name);
-		if (class_name.size() < 5) {
+		if (class_name.size() < 4) {
 			cout << "Length of name's class is not acceptable. " << endl;
 			system("pause");
 		}
-	} while (class_name.size() < 5);
+	} while (class_name.size() < 4);
 	//Make a list of classes in file CSV to check
 	ofstream out_file("classes.csv", std::ios_base::app);
 	out_file << class_name << endl;
