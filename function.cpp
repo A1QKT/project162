@@ -26,6 +26,7 @@ void createClass() {
 	out_file.close();
 }
 
+//An
 void createCourseSession(){
 	string start_date, end_date;
 	cout << "Please enter the start date of the course registration: ";
@@ -248,4 +249,13 @@ void addCourse(string year, string semester, course course) {
 	cin >> course.lecturer;
 	cout << "Insert number of students that can enroll for this course: ";
 	cin >> course.max;
+	cout << "Insert course 1st date: ";
+	cin >> course.date1;
+	cout << "Insert course 2nd date: ";
+	cin >> course.date2;
+
+	cout << "Insert course 1st session: ";
+	cin >> course.session1;
+	cout << "Insert course 2nd session: ";
+	cin >> course.session2;
 }
