@@ -394,24 +394,6 @@ void viewListofCourse(string year, string semester) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 bool checkLogin(login& currentacc) {
 	ifstream fin;
 	fin.open("login.txt");
