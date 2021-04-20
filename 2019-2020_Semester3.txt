@@ -1,0 +1,30 @@
+10/04/2021
+30/04/2021
+3
+CS161
+Introduction to Programming
+Dinh Ba Tien
+4
+50
+Monday
+15:30
+Saturday
+13:30
+CM101
+Communication Management
+Duong Nguyen Vu
+4
+90
+Thursday
+13:30
+Friday
+15:30
+MTH251
+Calculus I
+Nguyen Huu Anh
+4
+50
+Tuesday
+9:30
+Wednesday
+11:10
