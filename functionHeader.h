@@ -8,5 +8,11 @@ void createSchoolyear();
 void createClass();
 void addStudentManually(string classname);
 void addStudentCSV(string link, string classname);
-
+void getCurrent(string& year, string& semester);
+void courseRegistation(string year, string semester);
+bool isOktoRegist();
+void StaffMenu(login& currentacc);
+void StudentMenu(login& currentacc);
+void StaffMenu(login& currentacc);
+void StudentMenu(login& currentacc);
 #endif
