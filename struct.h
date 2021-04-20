@@ -39,4 +39,10 @@ struct schoolyear{
     string* classname;
 };
 
+struct mark {
+    int No;
+    string firstname;
+    string lastname;
+    float total, midterm, final, bonus;
+};
 #endif
