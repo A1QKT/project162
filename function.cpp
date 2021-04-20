@@ -4,6 +4,7 @@
 #include<string>
 #include<sstream>
 #include<vector>
+#include <ctime>
 using namespace std;
 //Chau
 void createSchoolyear(string year) {
@@ -224,8 +225,32 @@ void courseRegistation(string year, string semester) {
 	getline(cin, date2, '\n');
 	fout << date1 << endl << date2 << 0;
 	fout.close();
-
+	int n;
+	fout.open("registration.txt");
+	fout << date1 << endl << date2 << endl;
+	ifstream fin("student.txt");
+	fin >> n; fout << n << endl;
+	student* st = new student[n];
+	for (int i = 0; i < n; ++i) {
+		fin >> st[i].No; fin.ignore();
+		getline(fin, st[i].studentID, ',');
+		getline(fin, st[i].firstname, ',');
+		getline(fin, st[i].lastname, ',');
+		getline(fin, st[i].DOB, ',');
+		getline(fin, st[i].classname, ',');
+		fin >> st[i].gender;
+		fin.ignore();
+		fin >> st[i].socialID; fin.ignore();
+		fout << st[i].studentID << "," << st[i].classname << "," << 0 << endl;
+	}
+	fin.close();
+	fout.close();
+	fout.open(year + "_Semester" + semester + ".txt");
+	fout << date1 << endl << date2 << endl << 0;
+	delete[]st;
+	return;
 }
+
 
 //Khoi
 void updateCourse(string Course) {
@@ -474,6 +499,71 @@ void viewProfile(login& currentacc)
 	StudentMenu(currentacc);
 }
 
+void getListCourse(course*& c, int& n, string year, string semester) {
+	ifstream fin; string d1, d2;
+	fin.open(year + "_Semester" + semester + ".txt");
+	string tmp;
+	getline(fin, d1, '\n'); getline(fin, d2, '\n');
+	fin >> n; fin.ignore();
+	c = new course[n];
+	for (int i = 0; i < n; ++i) {
+		getline(fin, c[i].id, '\n');
+		getline(fin, c[i].name, '\n');
+		getline(fin, c[i].lecturer, '\n');
+		fin >> c[i].credit; fin.ignore();
+		fin >> c[i].max; fin.ignore();
+		getline(fin, c[i].date1, '\n');
+		getline(fin, c[i].session1, '\n');
+		getline(fin, c[i].date2, '\n');
+		getline(fin, c[i].session2, '\n');
+	}
+	fin.close();
+}
+
+bool isOktoRegist() {
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+	int cyear = 1900 + ltm->tm_year;
+	int cmonth = 1 + ltm->tm_mon;
+	int cday = ltm->tm_mday;
+	int d1, m1, y1;
+	int d2, m2, y2;
+	ifstream fin("registration.txt");
+	fin >> d1; fin.ignore();
+	fin >> m1; fin.ignore();
+	fin >> y1; fin.ignore();
+	fin >> d2; fin.ignore();
+	fin >> m2; fin.ignore();
+	fin >> y2; fin.ignore();
+	cout << d1 << " " << m1 << " " << y1 << endl;
+	cout << d2 << " " << m2 << " " << y2 << endl;
+	fin.close();
+	if (cyear < y1)
+		return false;
+	if (y1 == cyear) {
+		if (cmonth < m1)
+			return false;
+		else if (cmonth == m1 && d1 > cday)
+			return false;
+	}
+	if (cyear > y2)
+		return false;
+	if (y2 == cyear) {
+		if (cmonth > m2)
+			return false;
+		else if (cmonth == m2 && d2 < cday)
+			return false;
+	}
+	return true;
+}
+
+void getCurrent(string& year, string& semester) {
+	ifstream fin("current.txt");
+	getline(fin, year, '\n');
+	getline(fin, semester, '\n');
+	fin.close();
+	return;
+}
 
 
 
@@ -484,15 +574,125 @@ void viewProfile(login& currentacc)
 
 
 
+//-----------------------------Change password----------------------------
+void successChange(login& currentacc, string newpass)
+{
+	ifstream fin("login.txt");
+	int n; fin >> n; fin.ignore();
+	login* acc = new login[n];
+	for (int i = 0; i < n; ++i)
+	{
+		getline(fin, acc[i].role, ',');
+		getline(fin, acc[i].username, ',');
+		getline(fin, acc[i].pass, '\n');
+		if (currentacc.username == acc[i].username)
+			acc[i].pass = newpass;
+	}
+	fin.close();
+	ofstream fout("login.txt");
+	fout << n << endl;
+	for (int i = 0; i < n; ++i)
+	{
+		fout << acc[i].role << "," << acc[i].username << "," << acc[i].pass << endl;
+	}
+	fout.close();
+	cout << "Successfully changed password." << endl;
+	return;
+}
 
-
+void changePass(login& currentacc)
+{
+	int choice;
+	string pass, newpass1, newpass2;
+	system("cls");
+	/*Blue();*/ cout << "---Change Password---" << endl;
+	/*Blue();*/ cout << "Username:               ";
+	/*White();*/ cout << currentacc.username << endl;
+	/*BrightBlue();*/	cout << "Current password:       ";
+/*	White();*/ 
+	getline(cin, pass, '\n');
+	/*BrightBlue(); */cout << "New password:           ";
+	/*White();*/ getline(cin, newpass1, '\n');
+	/*BrightBlue();*/  cout << "New pass (again):       ";
+	/*White();*/ getline(cin, newpass2, '\n');
+	cout << endl << endl;
+	/*Green(); */cout << "Enter 0 to cancel || 1 to change password " << endl;
+	cout << "Enter: ";
+	/*White();*/ cin >> choice;
+	//deleteRow(5, 80);
+	if (choice == 0)
+		StaffMenu(currentacc);
+	/*Sleep(400);*/
+	if (currentacc.pass != pass || newpass1 != newpass2)
+	{
+		/*Red();*/ cout << endl << "Please check your password again" << endl << endl;
+		/*Green();*/ cout << "Enter 0 to cancel || 1 to try again " << endl;
+		cout << "Enter: ";
+		cin >> choice;
+		cin.ignore(100, '\n');
+		if (choice == 1)
+			changePass(currentacc);
+		else StaffMenu(currentacc);
+	}
+	else
+	{
+		successChange(currentacc, newpass1);
+		cout << "Press enter to back to menu.   ";
+		cin.get(); cin.get();
+		StaffMenu(currentacc);
+	}
+}
 
 
 //-----------------------------------Menu---------------------------------
 void StaffMenu(login& currentacc) {
-
+	int choice;
+	system("cls");
+	/*gotoXY(40, 0);
+	Cyan();*/
+	cout << "Welcome " << endl;
+	//BrightMagenta();
+	cout << "-------Account-------" << endl;
+	//White();
+	cout << "0. Change password." << endl;
+	cout << "1. View profile info" << endl;
+	cout << "Enter: ";
+	cin >> choice;
+	cin.ignore(100, '\n');
+	switch (choice) {
+	case 0:
+		changePass(currentacc);
+		break;
+	case 1:
+		viewProfile(currentacc);
+		break;
+	default:
+		exit(0);
+	}
 }
 
 void StudentMenu(login& currentacc) {
-
+	int choice;
+	system("cls");
+	/*gotoXY(40, 0);
+	Cyan();*/
+	cout << "Welcome " << endl;
+	//BrightMagenta();
+	cout << "-------Account-------" << endl;
+	//White();
+	cout << "0. Change password." << endl;
+	cout << "1. View profile info" << endl;
+	cout << "Enter: ";
+	cin >> choice;
+	cin.ignore(100, '\n');
+	switch (choice) {
+	case 0:
+		changePass(currentacc);
+		break;
+	case 1:
+		viewProfile(currentacc);
+		break;
+	default:
+		exit(0);
+	}
 }
