@@ -386,7 +386,226 @@ void addCourse(string year, string semester, course course) {
 
 }
 
-//An: Enroll in a course (task 13)
+
+
+
+// task 13
+void addStudentinCourse(string courseid, student st, string year, string semester) {
+	ifstream fin(year + "_Semester" + semester + "_" + courseid + ".txt");
+	int n; fin >> n; fin.ignore();
+	string* list = new string[n];
+	for (int i = 0; i < n; ++i) {
+		getline(fin, list[i], '\n');
+	}
+	fin.close();
+	ofstream fout(year + "_Semester" + semester + "_" + courseid + ".txt");
+	fout << n + 1 << endl;
+	for (int i = 0; i < n; ++i) {
+		fout << list[i] << endl;
+	}
+	fout << n + 1 << "," << st.studentID << "," << st.firstname << "," << st.lastname << ",0,0,0,0";
+	fout.close();
+}
+
+void getListCourse(course*& c, int& n, string year, string semester) {
+	ifstream fin; string d1, d2;
+	fin.open(year + "_Semester" + semester + ".txt");
+	string tmp;
+	getline(fin, d1, '\n'); getline(fin, d2, '\n');
+	fin >> n; fin.ignore();
+	c = new course[n];
+	for (int i = 0; i < n; ++i) {
+		getline(fin, c[i].id, '\n');
+		getline(fin, c[i].name, '\n');
+		getline(fin, c[i].lecturer, '\n');
+		fin >> c[i].credit; fin.ignore();
+		fin >> c[i].max; fin.ignore();
+		getline(fin, c[i].date1, '\n');
+		getline(fin, c[i].session1, '\n');
+		getline(fin, c[i].date2, '\n');
+		getline(fin, c[i].session2, '\n');
+	}
+	fin.close();
+}
+
+bool isOktoRegist() {
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+	int cyear = 1900 + ltm->tm_year;
+	int cmonth = 1 + ltm->tm_mon;
+	int cday = ltm->tm_mday;
+	int d1, m1, y1;
+	int d2, m2, y2;
+	ifstream fin("registration.txt");
+	fin >> d1; fin.ignore();
+	fin >> m1; fin.ignore();
+	fin >> y1; fin.ignore();
+	fin >> d2; fin.ignore();
+	fin >> m2; fin.ignore();
+	fin >> y2; fin.ignore();
+	cout << d1 << " " << m1 << " " << y1 << endl;
+	cout << d2 << " " << m2 << " " << y2 << endl;
+	fin.close();
+	if (cyear < y1)
+		return false;
+	if (y1 == cyear) {
+		if (cmonth < m1)
+			return false;
+		else if (cmonth == m1 && d1 > cday)
+			return false;
+	}
+	if (cyear > y2)
+		return false;
+	if (y2 == cyear) {
+		if (cmonth > m2)
+			return false;
+		else if (cmonth == m2 && d2 < cday)
+			return false;
+	}
+	return true;
+}
+
+void getCurrent(string& year, string& semester) {
+	ifstream fin("current.txt");
+	getline(fin, year, '\n');
+	getline(fin, semester, '\n');
+	fin.close();
+	return;
+}
+
+bool checkConflict(course& a, course& b) {
+	if (a.id == b.id)
+		return true;
+	if (a.date1 == b.date1 && a.session1 == b.session1)
+		return true;
+	if (a.date2 == b.date2 && a.session2 == b.session2)
+		return true;
+	return false;
+}
+
+void Registration(login& currentacc, string year, string semester) {
+	if (!isOktoRegist()) {
+		cout << "The course registration time has ended!";
+		return;
+	}
+	int max; int currentNum;
+	student currentstd;
+	ifstream st("student.txt");
+	int n; int numOfCourse;
+	st >> n; st.ignore();
+	for (int i = 0; i < n; ++i) {
+		st >> currentstd.No; st.ignore();
+		getline(st, currentstd.studentID, ',');
+		if (currentstd.studentID == currentacc.username) {
+			getline(st, currentstd.firstname, ',');
+			getline(st, currentstd.lastname, ',');
+			getline(st, currentstd.DOB, ',');
+			getline(st, currentstd.classname, ',');
+			st >> currentstd.gender;
+			st.ignore();
+			st >> currentstd.socialID;
+			break;
+		}
+		else st.ignore(100, '\n');
+	}
+	st.close();
+	ifstream fin("registration.txt");
+	string d1, d2;
+	string t = "";
+	int list;
+	course* listC;
+	//string year, semester;
+	getListCourse(listC, list, year, semester);
+	bool check = false; course rcourse;
+	do {
+		cout << "Please input course ID: ";
+		getline(cin, rcourse.id, '\n');
+		for (int i = 0; i < list; ++i)
+			if (listC[i].id == rcourse.id) {
+				check = true;
+				rcourse = listC[i];
+			}
+	} while (check != true);
+	getline(fin, d1, '\n');
+	getline(fin, d2, '\n');
+	fin >> n; fin.ignore();
+	student* std = new student[n];
+	for (int i = 0; i < n; ++i) {
+		getline(fin, std[i].studentID, ',');
+		if (std[i].studentID == currentacc.username) {
+			getline(fin, std[i].classname, ',');
+			fin >> numOfCourse; fin.ignore();
+			if (numOfCourse == 5) {
+				cout << "You have reached maximum number of course in this semester.";
+				delete[] std; fin.close(); return;
+			}
+			if (std[i].studentID == currentacc.username)
+			{
+				course* currentCourse = new course[numOfCourse + 1];
+				for (int j = 0; j < numOfCourse; ++j)
+				{
+					if (j < numOfCourse - 1)
+					{
+						getline(fin, currentCourse[j].id, ',');
+						t += currentCourse[j].id;
+						t += ",";
+					}
+					else if (j == numOfCourse - 1)
+					{
+						getline(fin, currentCourse[j].id, '\n');
+						t += currentCourse[j].id;
+					}
+				}
+				for (int j = 0; j < numOfCourse; ++j)
+					if (checkConflict(currentCourse[j], rcourse)) {
+						cout << "You can not register in this course." << endl;
+						delete[]currentCourse; delete[]listC; delete[]std;
+						return;
+					}
+				for (int j = 0; j < numOfCourse; ++j)
+				{
+					for (int k = 0; k < list; ++k)
+					{
+						if (currentCourse[j].id == listC[k].id)
+							max = listC[k].max;
+					}
+				}
+				ifstream cfile(year + "_Semester" + semester + "_" + rcourse.id + ".txt");
+				cfile >> currentNum; cfile.close();
+				if (currentNum == rcourse.max) {
+					cout << "This course has reached maximum number of student" << endl;
+					delete[]currentCourse; delete[]listC; delete[]std;
+					return;
+				}
+				if (numOfCourse != 0)  t += ",";
+				t += rcourse.id; ++numOfCourse;
+				addStudentinCourse(rcourse.id, currentstd, year, semester);
+				delete[]currentCourse; delete[]listC;
+			}
+		}
+		else getline(fin, std[i].firstname, '\n');
+	}
+	fin.close();
+	ofstream fout("registration.txt");
+	fout << d1 << endl << d2 << endl;
+	fout << n << endl;
+	for (int i = 0; i < n; ++i) {
+		fout << std[i].studentID << ",";
+		if (std[i].studentID == currentacc.username) {
+			fout << currentstd.classname << ",";
+			fout << numOfCourse << "," << t;
+		}
+		else fout << std[i].firstname;
+		if (i != n - 1)
+			fout << endl;
+	}
+	cout << "You have successfully enrolled in this course.";
+	fout.close(); delete[]std;
+	return;
+}
+
+
+
 
 
 //Khoi: 17
@@ -499,71 +718,7 @@ void viewProfile(login& currentacc)
 	StudentMenu(currentacc);
 }
 
-void getListCourse(course*& c, int& n, string year, string semester) {
-	ifstream fin; string d1, d2;
-	fin.open(year + "_Semester" + semester + ".txt");
-	string tmp;
-	getline(fin, d1, '\n'); getline(fin, d2, '\n');
-	fin >> n; fin.ignore();
-	c = new course[n];
-	for (int i = 0; i < n; ++i) {
-		getline(fin, c[i].id, '\n');
-		getline(fin, c[i].name, '\n');
-		getline(fin, c[i].lecturer, '\n');
-		fin >> c[i].credit; fin.ignore();
-		fin >> c[i].max; fin.ignore();
-		getline(fin, c[i].date1, '\n');
-		getline(fin, c[i].session1, '\n');
-		getline(fin, c[i].date2, '\n');
-		getline(fin, c[i].session2, '\n');
-	}
-	fin.close();
-}
 
-bool isOktoRegist() {
-	time_t now = time(0);
-	tm* ltm = localtime(&now);
-	int cyear = 1900 + ltm->tm_year;
-	int cmonth = 1 + ltm->tm_mon;
-	int cday = ltm->tm_mday;
-	int d1, m1, y1;
-	int d2, m2, y2;
-	ifstream fin("registration.txt");
-	fin >> d1; fin.ignore();
-	fin >> m1; fin.ignore();
-	fin >> y1; fin.ignore();
-	fin >> d2; fin.ignore();
-	fin >> m2; fin.ignore();
-	fin >> y2; fin.ignore();
-	cout << d1 << " " << m1 << " " << y1 << endl;
-	cout << d2 << " " << m2 << " " << y2 << endl;
-	fin.close();
-	if (cyear < y1)
-		return false;
-	if (y1 == cyear) {
-		if (cmonth < m1)
-			return false;
-		else if (cmonth == m1 && d1 > cday)
-			return false;
-	}
-	if (cyear > y2)
-		return false;
-	if (y2 == cyear) {
-		if (cmonth > m2)
-			return false;
-		else if (cmonth == m2 && d2 < cday)
-			return false;
-	}
-	return true;
-}
-
-void getCurrent(string& year, string& semester) {
-	ifstream fin("current.txt");
-	getline(fin, year, '\n');
-	getline(fin, semester, '\n');
-	fin.close();
-	return;
-}
 
 
 
