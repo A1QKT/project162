@@ -19,5 +19,5 @@ void StaffMenu(login& currentacc);
 void StudentMenu(login& currentacc);
 void StaffMenu(login& currentacc);
 void StudentMenu(login& currentacc);
-
+void deleteEnrollCourse(login& currentacc, string year, string semester);
 #endif

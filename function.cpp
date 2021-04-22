@@ -389,7 +389,7 @@ void addCourse(string year, string semester, course course) {
 
 
 
-// task 13
+// Ngan: 13
 void addStudentinCourse(string courseid, student st, string year, string semester) {
 	ifstream fin(year + "_Semester" + semester + "_" + courseid + ".txt");
 	int n; fin >> n; fin.ignore();
@@ -720,7 +720,90 @@ void viewProfile(login& currentacc)
 
 
 
-
+//Ngan: 15
+void deleteEnrollCourse(login& currentacc, string year, string semester) {
+	ifstream fin("registration.txt");
+	string d1, d2; int numOfCourse = 0; string ccourse;
+	/*course* listC; int list;
+	getCourse(listC, list, year, semester);*/
+	getline(fin, d1, '\n'); getline(fin, d2, '\n');
+	int n; fin >> n; fin.ignore();
+	student* st = new student[n];
+	for (int i = 0; i < n; ++i) {
+		getline(fin, st[i].studentID, ',');
+		if (st[i].studentID == currentacc.username) {
+			getline(fin, st[i].classname, ',');
+			fin >> numOfCourse; fin.ignore();
+			if (numOfCourse == 0) {
+				cout << "You haven't enrolled in any course." << endl;
+				delete[]st; /*delete[]listC;*/ fin.close();  return;
+			}
+			getline(fin, ccourse, '\n');
+		}
+		else getline(fin, st[i].classname, '\n');
+	}
+	bool check = false;
+	cout << ccourse << endl;
+	cout << "Here are your list of enrolled course: " << endl;
+	cout << "   ";
+	for (int i = 0; i < ccourse.length(); ++i) {
+		if (ccourse[i] != ',')
+			cout << ccourse[i];
+		else cout << endl << "   ";
+	}
+	cout << endl << endl << "Which course you want to delete: ";
+	string dcourse; getline(cin, dcourse, '\n');
+	if (ccourse.find(dcourse) < 1000)
+		check = true;
+	while (!check) {
+		cout << "You didn't enroll in this course. Please enter again." << endl;
+		cout << "Which course you want to delete: "; getline(cin, dcourse, '\n');
+		if (ccourse.find(dcourse) < 1000)
+			check = true;
+	}
+	--numOfCourse;
+	ccourse.erase(ccourse.find(dcourse), dcourse.length() + 1);
+	if (ccourse.length() != 0) {
+		if (ccourse[ccourse.length() - 1] == ',')
+			ccourse.erase(ccourse.length() - 1, 1);
+	}
+	cout << ccourse;
+	fin.close();
+	ofstream fout("registration.txt");
+	fout << d1 << endl << d2 << endl << n << endl;
+	for (int i = 0; i < n; ++i) {
+		fout << st[i].studentID << ",";
+		if (st[i].studentID == currentacc.username) {
+			fout << st[i].classname << "," << numOfCourse;
+			if (ccourse != "")
+				fout << "," << ccourse << endl;
+			else cout << endl;
+		}
+		else fout << st[i].classname << endl;
+	}
+	fout.close();
+	fin.open(year + "_Semester" + semester + "_" + dcourse + ".txt");
+	fin >> n; delete[]st;
+	st = new student[n];
+	for (int i = 0; i < n; ++i) {
+		fin.ignore(100, ',');
+		getline(fin, st[i].studentID, ',');
+		getline(fin, st[i].classname, '\n');
+	}
+	n;
+	fin.close();
+	fout.open(year + "_Semester" + semester + "_" + dcourse + ".txt");
+	fout << n - 1 << endl; int j = 0;
+	for (int i = 0; i < n; ++i) {
+		++j;
+		if (st[i].studentID == currentacc.username)
+			--j;
+		else fout << j << "," << st[i].studentID << "," << st[i].classname << endl;
+	}
+	fout.close();
+	delete[]st;
+	return;
+}
 
 
 
