@@ -718,7 +718,26 @@ void viewProfile(login& currentacc)
 	StudentMenu(currentacc);
 }
 
-
+//khoi 20
+void viewListOfCourse(string courseName){
+	ifstream fin;
+	fin.open(courseName);
+	if(fin.is_open()){
+		string temp;
+		fin >> temp;
+		while(getline(fin, temp)){
+			stringstream in(temp);
+			int j = 0;
+			vector <string> result(4);
+			while(getline(in, result[j], ',')){
+				cout << result[j] << endl;
+				++j;
+				if(j >= 4) break;
+			}
+		}
+	}
+	fin.close();	
+}
 
 //Ngan: 15
 void deleteEnrollCourse(login& currentacc, string year, string semester) {
