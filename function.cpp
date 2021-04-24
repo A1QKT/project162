@@ -252,6 +252,29 @@ void courseRegistation(string year, string semester) {
 }
 
 
+
+void getCourse(course*& c, int& n, string year, string semester) {
+	ifstream fin; string d1, d2;
+	fin.open(year + "_Semester" + semester + ".txt");
+	string tmp;
+	getline(fin, d1, '\n'); getline(fin, d2, '\n');
+	fin >> n; fin.ignore();
+	c = new course[n];
+	for (int i = 0; i < n; ++i) {
+		getline(fin, c[i].id, '\n');
+		getline(fin, c[i].name, '\n');
+		getline(fin, c[i].lecturer, '\n');
+		fin >> c[i].credit; fin.ignore();
+		fin >> c[i].max; fin.ignore();
+		getline(fin, c[i].date1, '\n');
+		getline(fin, c[i].session1, '\n');
+		getline(fin, c[i].date2, '\n');
+		getline(fin, c[i].session2, '\n');
+	}
+	fin.close();
+}
+
+
 //Khoi
 void updateCourse(string Course) {
 	/*student* students;
@@ -336,34 +359,27 @@ void updateCourse(string Course) {
 
 //Ngan
 void deleteCourse(string year, string semester, course crs) {
-	ifstream fin;
-	ofstream fout;
-	fin.open(year + "_Semester" + semester + ".txt");
-	string d1, d2; int n;  bool check = false;
-	getline(fin, d1, '\n');
-	getline(fin, d2, '\n');
-	fin >> n;
-	course* c = new course[n];
-	fin.ignore();
-	for (int i = 0; i < n; ++i) {
-		getline(fin, c[i].id, '\n');
-		if (c[i].id == crs.id)
-			check = true;
-		getline(fin, c[i].name, '\n');
-		getline(fin, c[i].lecturer, '\n');
-		fin >> c[i].credit; fin.ignore();
-		fin >> c[i].max; fin.ignore();
-		getline(fin, c[i].date1, '\n');
-		getline(fin, c[i].session1, '\n');
-		getline(fin, c[i].date2, '\n');
-		getline(fin, c[i].session2, '\n');
+	course* c; int n; string d1, d2;
+	getCourse(c, n, year, semester);
+	cout << "List of course ID: " << endl;
+	for (int i = 0; i < n; ++i)
+		cout << "  " << c[i].id << endl;
+	bool check = false;
+	string crs;
+	while (!check) {
+		cout << endl << "Which course you want to delete: ";
+		getline(cin, crs, '\n');
+		for (int i = 0; i < n; ++i)
+			if (c[i].id == crs) {
+				check = true;
+				break;
+			}
+		if (!check) cout << "This course does not exit. Please try again." << endl;
 	}
-	if (!check) {
-		cout << "Can not find this course." << endl;
-		fin.close(); return;
-	}
+	ifstream fin(year + "_Semester" + semester + ".txt");
+	getline(fin, d1, '\n'); getline(fin, d2, '\n');
 	fin.close();
-	fout.open(year + "_Semester" + semester + ".txt");
+	ofstream fout(year + "_Semester" + semester + ".txt");
 	fout << d1 << endl << d2 << endl << n - 1 << endl;
 	for (int i = 0; i < n; ++i) {
 		if (c[i].id == crs)
@@ -376,10 +392,12 @@ void deleteCourse(string year, string semester, course crs) {
 				fout << endl;
 		}
 	}
-	fout << "Successfully delete the course.";
+	cout << "Successfully delete the course.";
 	delete[]c;
 	fout.close();
+	return;
 }
+
 
 //An
 void addCourse(string year, string semester, course course) {
@@ -407,26 +425,7 @@ void addStudentinCourse(string courseid, student st, string year, string semeste
 	fout.close();
 }
 
-void getListCourse(course*& c, int& n, string year, string semester) {
-	ifstream fin; string d1, d2;
-	fin.open(year + "_Semester" + semester + ".txt");
-	string tmp;
-	getline(fin, d1, '\n'); getline(fin, d2, '\n');
-	fin >> n; fin.ignore();
-	c = new course[n];
-	for (int i = 0; i < n; ++i) {
-		getline(fin, c[i].id, '\n');
-		getline(fin, c[i].name, '\n');
-		getline(fin, c[i].lecturer, '\n');
-		fin >> c[i].credit; fin.ignore();
-		fin >> c[i].max; fin.ignore();
-		getline(fin, c[i].date1, '\n');
-		getline(fin, c[i].session1, '\n');
-		getline(fin, c[i].date2, '\n');
-		getline(fin, c[i].session2, '\n');
-	}
-	fin.close();
-}
+
 
 bool isOktoRegist() {
 	time_t now = time(0);
@@ -515,7 +514,7 @@ void Registration(login& currentacc, string year, string semester) {
 	int list;
 	course* listC;
 	//string year, semester;
-	getListCourse(listC, list, year, semester);
+	getCourse(listC, list, year, semester);
 	bool check = false; course rcourse;
 	do {
 		cout << "Please input course ID: ";
@@ -826,7 +825,48 @@ void deleteEnrollCourse(login& currentacc, string year, string semester) {
 
 
 
-
+void viewListofEnrollCourse(login& currentacc, string year, string semester) {
+	ifstream fin("registration.txt");
+	string tmp; int numOfCourse; string ccourse;
+	course* listC; int list;
+	getCourse(listC, list, year, semester);
+	getline(fin, tmp, '\n'); getline(fin, tmp, '\n');
+	int n; fin >> n; fin.ignore();
+	for (int i = 0; i < n; ++i) {
+		getline(fin, tmp, ',');
+		if (tmp == currentacc.username) {
+			getline(fin, tmp, ',');
+			fin >> numOfCourse; fin.ignore();
+			//cout << numOfCourse;
+			if (numOfCourse == 0) {
+				cout << "You haven't enrolled in any course." << endl;
+				delete[]listC; fin.close();  return;
+			}
+			getline(fin, ccourse, '\n');
+		}
+		else getline(fin, tmp, '\n');
+	}
+	cout << "  Course ID  |             Course Name             |       Lecturer       |     Session 1     |     Session 2    " << endl;
+	//fin.close(); 
+	int j = 1;
+	for (int i = 0; i < list; ++i) {
+		if (ccourse.find(listC[i].id) < 1000) {
+			/*gotoXY(2, j);
+			cout << listC[i].id;
+			gotoXY(13, j);
+			cout << "| " << listC[i].name;
+			gotoXY(51, j);
+			cout << "| " << listC[i].lecturer;
+			gotoXY(74, j);
+			cout << "| " << listC[i].date1 << " " << listC[i].session1;
+			gotoXY(94, j);
+			cout << "| " << listC[i].date2 << " " << listC[i].session2;
+			++j;*/
+		}
+	}
+	delete[]listC;
+	fin.close(); return;
+}
 
 
 
