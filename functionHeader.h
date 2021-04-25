@@ -9,6 +9,7 @@ void createClass();
 void addStudentManually(string classname);
 void addStudentCSV(string link, string classname);
 void getCurrent(string& year, string& semester);
+void addCourse();
 void courseRegistation(string year, string semester);
 void getCourse(course*& c, int& n, string year, string semester);
 bool isOktoRegist();

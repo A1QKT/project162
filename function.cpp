@@ -504,8 +504,80 @@ void deleteCourse(string year, string semester, course crs) {
 
 
 //An
-void addCourse(string year, string semester, course course) {
+void addCourse() {
+	ofstream ofile;
+	ifstream ifile;
+	int n = 0;
+	ifile.open("test1.csv");
+	if (!ifile.is_open()) {
+		cout << "Cannot open file." << endl;
+	}
+	else {
+		ifile >> n;
+		n += 1;
+		course *temp_courses = new course[n];
+		string temp_input;
+		getline(ifile, temp_input, '\n');
+		for (int i = 0; i < n - 1; i++) {
+			getline(ifile, temp_courses[i].id, ',');
+			getline(ifile, temp_courses[i].name, ',');
+			getline(ifile, temp_courses[i].lecturer, ',');
 
+
+			getline(ifile, temp_input, ',');
+			stringstream credit(temp_input);
+			credit >> temp_courses[i].credit;
+
+			getline(ifile, temp_input, ',');
+			stringstream max_st(temp_input);
+			max_st >> temp_courses[i].max;
+
+			getline(ifile, temp_courses[i].date1, ',');
+			getline(ifile, temp_courses[i].date2, ',');
+
+			getline(ifile, temp_courses[i].session1, ',');
+			getline(ifile, temp_courses[i].session2);
+
+		}
+		ifile.close();
+		cout << "Insert new course's ID: ";
+		getline(cin, temp_courses[n - 1].id);
+		cout << "Insert new course's name: ";
+		getline(cin, temp_courses[n - 1].name);
+		cout << "Insert new course's lecturer: ";
+		getline(cin, temp_courses[n - 1].lecturer);
+		cout << "Insert new course's credit: ";
+		cin >> temp_courses[n - 1].credit;
+		cout << "Insert max students for a course: ";
+		cin >> temp_courses[n - 1].max;
+
+		cin.ignore();
+		cout << "Insert first date for a class of course: ";
+		cin >> temp_courses[n - 1].date1;
+		cout << "Insert second date for a class of course: ";
+		cin >> temp_courses[n - 1].date2;
+
+		cout << "Insert first session for a class of course: ";
+		cin >> temp_courses[n - 1].session1;
+		cout << "Insert second session for a class of course: ";
+		cin >> temp_courses[n - 1].session2;
+		ofile.open("test1.csv", std::ios_base::out);
+		ofile << n << endl;
+		for (int i = 0; i < n; i++) {
+			ofile << temp_courses[i].id << ","
+				<< temp_courses[i].name << ","
+				<< temp_courses[i].lecturer << ","
+				<< temp_courses[i].credit << ","
+				<< temp_courses[i].max << ","
+
+				<< temp_courses[i].date1 << ","
+				<< temp_courses[i].date2 << ","
+				<< temp_courses[i].session1 << ","
+				<< temp_courses[i].session2 << endl;
+		}
+		ofile.close();
+		delete[]temp_courses;
+	}
 }
 
 
