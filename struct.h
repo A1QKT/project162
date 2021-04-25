@@ -22,6 +22,7 @@ struct student{
 };
 
 struct Class{
+	string name;
     student* next;
 };
 
