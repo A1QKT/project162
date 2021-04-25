@@ -11,19 +11,40 @@ void createSchoolyear() {
 }
 //An
 void createClass() {
-	string class_name;
-	do {
-		cout << "Please enter the name of the new class: ";
-		getline(cin, class_name);
-		if (class_name.size() < 4) {
-			cout << "Length of name's class is not acceptable. " << endl;
-			system("pause");
+	ofstream ofile;
+	ifstream ifile;
+	int n = 1;
+	ifile.open("test1.txt");
+	if (ifile.eof()) {
+		ifile.close();
+		Class new_class;
+		cout << "Insert new class: ";
+		cin >> new_class.name;
+		ofile.open("test1.txt", std::ios_base::out);
+		ofile << n << "\n";
+		ofile << new_class.name;
+		ofile.close();
+	}
+	else {
+		ifile >> n;
+		n += 1;
+		Class *temp_classes = new Class[n];
+		for (int i = 0; i < n - 1; i++) {
+			ifile >> temp_classes[i].name;
 		}
-	} while (class_name.size() < 4);
-	//Make a list of classes in file CSV to check
-	ofstream out_file("classes.csv", std::ios_base::app);
-	out_file << class_name << endl;
-	out_file.close();
+		ifile.close();
+		cout << "Insert new class: ";
+		cin >> temp_classes[n - 1].name;
+		mergeSortClasses(temp_classes, 0, n - 1);
+		n = removeDuplicatesClasses(temp_classes, n);
+		ofile.open("test1.txt", std::ios_base::out);
+		ofile << n << "\n";
+		for (int i = 0; i < n; i++) {
+			ofile << temp_classes[i].name << "\n";
+		}
+		ofile.close();
+	}
+
 }
 
 //An
