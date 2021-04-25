@@ -41,6 +41,7 @@ struct schoolyear{
 
 struct mark {
     int No;
+    string studentID;
     string firstname;
     string lastname;
     float total, midterm, final, bonus;
