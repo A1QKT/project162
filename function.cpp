@@ -299,7 +299,7 @@ void updateCourse(string Course) {
 		cout << "input max student: ";
 		cin >> a.max;
 		cout << "input date1: ";
-		getline(cin, a.date1); 
+		getline(cin, a.date1);
 		cout << "input date2: ";
 		getline(cin, a.date2);
 		cout << "input session1: ";
@@ -348,10 +348,10 @@ void updateCourse(string Course) {
 			fout << a.students[j].studentID << endl;
 			fout << a.students[j].firstname << endl;
 			fout << a.students[j].lastname << endl;
-			fout << a.students[j].gender << endl; 
+			fout << a.students[j].gender << endl;
 			fout << a.students[j].DOB << endl;
 			fout << a.students[j].socialID << endl;
-			fout << a.students[j].classname << endl;	
+			fout << a.students[j].classname << endl;
 		}
 	}
 	fout.close();
@@ -634,7 +634,34 @@ void viewListofStdinClass(string classname) {
 
 //Chau: 19
 void viewListofCourse(string year, string semester) {
+    ifstream fin;
+    ofstream fout;
+    int cnt=-3;
+    fin.open(year+'_'+semester+'_'+'.txt');
+    if(fin.is_open()){
+        string temp;
+		fin >> temp;
+		while(getline(fin, temp)){
+            if(cnt%9==0)
+                cout << "Code name of course: ";
+            if(cnt%9==1)
+                cout << "Name of course: ";
+            if(cnt%9==2)
+                cout << "Lecturer of course: ";
+            if(cnt%9==3)
+                cout << "Credits of course: ";
+            if(cnt%9==4)
+                cout << "Time of one session: ";
+            if(cnt%9==5)
+                cout << "Schedule of week: ";
+            if(cnt%9==7)
+                cout << "\n";
 
+			cout << " " << temp << "\n";
+			cnt++;
+		}
+    }
+    fin.close();
 }
 
 bool checkLogin(login& currentacc) {
@@ -735,7 +762,7 @@ void viewListOfCourse(string courseName){
 			}
 		}
 	}
-	fin.close();	
+	fin.close();
 }
 
 //Ngan: 15
@@ -847,7 +874,7 @@ void viewListofEnrollCourse(login& currentacc, string year, string semester) {
 		else getline(fin, tmp, '\n');
 	}
 	cout << "  Course ID  |             Course Name             |       Lecturer       |     Session 1     |     Session 2    " << endl;
-	//fin.close(); 
+	//fin.close();
 	int j = 1;
 	for (int i = 0; i < list; ++i) {
 		if (ccourse.find(listC[i].id) < 1000) {
@@ -906,7 +933,7 @@ void changePass(login& currentacc)
 	/*Blue();*/ cout << "Username:               ";
 	/*White();*/ cout << currentacc.username << endl;
 	/*BrightBlue();*/	cout << "Current password:       ";
-/*	White();*/ 
+/*	White();*/
 	getline(cin, pass, '\n');
 	/*BrightBlue(); */cout << "New password:           ";
 	/*White();*/ getline(cin, newpass1, '\n');
