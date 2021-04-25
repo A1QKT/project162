@@ -23,6 +23,10 @@ struct student{
     string classname;
 };
 
+struct classes {
+	string className;
+};
+
 struct course{
     student* students;
     string id;

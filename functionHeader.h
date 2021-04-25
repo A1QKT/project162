@@ -23,4 +23,9 @@ void deleteEnrollCourse(login& currentacc, string year, string semester);
 void viewListofEnrollCourse(login& currentacc, string year, string semester); //14 + 16
 void exportCSV(string year, string semester);
 void importScoreboard(string year, string semester);
+
+//An
+void mergeSortClasses(classes temp_classes[], int l, int r);
+void mergeClasses(classes temp_classes[], int l, int m, int r);
+int removeDuplicatesClasses(classes temp_classes[], int n);
 #endif
