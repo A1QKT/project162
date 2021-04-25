@@ -101,3 +101,15 @@ DerivedData/
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+ProjectCS162/.vs/ProjectCS162/v15/.suo
+*.db
+ProjectCS162/.vs/ProjectCS162/v15/Browse.VC.opendb
+*.ipch
+*.log
+*.tlog
+*.idb
+*.pdb
+*.vcxproj
+*.filters
+*.sln
+*.user
