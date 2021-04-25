@@ -13,7 +13,6 @@ void courseRegistation(string year, string semester);
 void getCourse(course*& c, int& n, string year, string semester);
 bool isOktoRegist();
 void addStudentinCourse(string courseid, student st, string year, string semester);
-
 bool checkConflict(course& a, course& b);
 void Registration(login& currentacc, string year, string semester);
 void StaffMenu(login& currentacc);
@@ -21,4 +20,7 @@ void StudentMenu(login& currentacc);
 void StaffMenu(login& currentacc);
 void StudentMenu(login& currentacc);
 void deleteEnrollCourse(login& currentacc, string year, string semester);
+void viewListofEnrollCourse(login& currentacc, string year, string semester); //14 + 16
+void exportCSV(string year, string semester);
+void importScoreboard(string year, string semester);
 #endif

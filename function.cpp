@@ -895,9 +895,105 @@ void viewListofEnrollCourse(login& currentacc, string year, string semester) {
 	fin.close(); return;
 }
 
+void exportCSV(string year, string semester) {
+	course* c; int n; string name;
+	getCourse(c, n, year, semester);
+	cout << "List of course: " << endl;
+	for (int i = 0; i < n; ++i)
+		cout << "  " << c[i].id << endl;
+	//cout << endl << "Which course you want to view: ";
+	string viewcourse; //getline(cin, viewcourse, '\n');
+	bool check = false;
+	while (!check) {
+		cout << endl << "Which course you want to view: ";
+		getline(cin, viewcourse, '\n');
+		for (int i = 0; i < n; ++i)
+			if (c[i].id == viewcourse) {
+				name = c[i].name; check = true;
+				break;
+			}
+		if (!check) cout << "This course does not exit. Please try again." << endl;
+	}
+	delete[]c;
+	ifstream fin(year + "_Semester" + semester + "_" + viewcourse + ".txt");
+	fin >> n; fin.ignore(); int no; string first;
+	ofstream fout(year + "_Semester" + semester + "_" + viewcourse + ".csv");
+	fout << "No,Student ID,Full Name,Total,Final,Midterm,Bonus" << endl;
+	//fout << "NO," << n << endl;
+	for (int i = 0; i < n; ++i) {
+		fin >> no; fin.ignore();
+		getline(fin, first, ',');
+		fout << no << "," << first << ",";
+		getline(fin, viewcourse, ',');
+		getline(fin, first, ',');
+		fout << first << " " << viewcourse << endl;
+		fin.ignore(100, '\n');
+	}
+	fin.close();
+	fout.close();
+	return;
+}
 
-
-
+void importScoreboard(string year, string semester) {
+	course* c; int n; string name;
+	getCourse(c, n, year, semester);
+	cout << "List of course ID: " << endl;
+	for (int i = 0; i < n; ++i)
+		cout << "  " << c[i].id << endl;
+	string viewcourse;
+	bool check = false;
+	while (!check) {
+		cout << endl << "Which course you want to view: ";
+		getline(cin, viewcourse, '\n');
+		for (int i = 0; i < n; ++i)
+			if (c[i].id == viewcourse) {
+				name = c[i].name; check = true;
+				break;
+			}
+		if (!check) cout << "This course does not exit. Please try again." << endl;
+	}
+	delete[]c; string tmp;
+	ifstream fin(year + "_Semester" + semester + "_" + viewcourse + ".txt");
+	fin >> n; fin.ignore(); int no; string first;
+	mark* std = new mark[n];
+	for (int i = 0; i < n; ++i) {
+		fin >> std[i].No; fin.ignore();
+		getline(fin, std[i].studentID, ',');
+		getline(fin, std[i].firstname, ',');
+		getline(fin, std[i].lastname, ',');
+		fin.ignore(100, '\n');
+	}
+	fin.close(); float score;
+	fin.open(year + "_Semester" + semester + "_" + viewcourse + ".csv");
+	if (!fin.is_open()) {
+		cout << "Cannot find scoreboard file." << endl;
+		delete[]std; fin.close(); return;
+	}
+	fin.ignore(100, '\n');
+	for (int i = 0; i < n; ++i) {
+		getline(fin, tmp, ',');
+		getline(fin, tmp, ',');
+		getline(fin, tmp, ',');
+		fin >> score; fin.ignore();
+		std[i].total = score;
+		fin >> score; fin.ignore();
+		std[i].final = score;
+		fin >> score; fin.ignore();
+		std[i].midterm = score;
+		fin >> score; fin.ignore();
+		std[i].bonus = score;
+	}
+	fin.close();
+	ofstream fout(year + "_Semester" + semester + "_" + viewcourse + ".txt");
+	fout << n << endl;
+	for (int i = 0; i < n; ++i) {
+		fout << std[i].No << "," << std[i].studentID << "," << std[i].firstname << "," << std[i].lastname << ",";
+		fout << std[i].total << "," << std[i].final << "," << std[i].midterm << "," << std[i].bonus << endl;
+	}
+	fout.close();
+	delete[]std;
+	return;
+}
 //-----------------------------Change password----------------------------
 void successChange(login& currentacc, string newpass)
 {
