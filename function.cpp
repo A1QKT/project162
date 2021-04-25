@@ -18,8 +18,112 @@ void createSchoolyear(string year) {
 }
 //An
 void createClass() {
-
+	ofstream ofile;
+	ifstream ifile;
+	int n = 0;
+	ifile.open("test1.csv");
+	if (!ifile.is_open()) {
+		cout << "Cannot open file." << endl;
+	}
+	else {
+		ifile >> n;
+		n += 1;
+		classes *temp_classes = new classes[n];
+		for (int i = 0; i < n - 1; i++) {
+			ifile >> temp_classes[i].className;
+		}
+		ifile.close();
+		cout << "Insert new class: ";
+		cin >> temp_classes[n - 1].className;
+		mergeSortClasses(temp_classes, 0, n - 1);
+		n = removeDuplicatesClasses(temp_classes, n);
+		ofile.open("test1.csv", std::ios_base::out);
+		ofile << n << "\n";
+		for (int i = 0; i < n; i++) {
+			ofile << temp_classes[i].className << "\n";
+		}
+		ofile.close();
+		delete[]temp_classes;
+	}
 }
+
+void mergeClasses(classes temp_classes[], int l, int m, int r) {
+	int n1 = m - l + 1;
+	int n2 = r - m;
+
+	classes *temp_cl1 = new classes[n1];
+	classes *temp_cl2 = new classes[n2];
+
+	for (int i = 0; i < n1; i++)
+		temp_cl1[i] = temp_classes[l + i];
+	for (int j = 0; j < n2; j++)
+		temp_cl2[j] = temp_classes[m + 1 + j];
+
+	int i = 0, j = 0, k = l;
+
+	while (i < n1 && j < n2) {
+		if (temp_cl1[i].className <= temp_cl2[j].className) {
+			temp_classes[k] = temp_cl1[i];
+			i++;
+		}
+		else {
+			temp_classes[k] = temp_cl2[j];
+			j++;
+		}
+		k++;
+	}
+
+	while (i < n1) {
+		temp_classes[k] = temp_cl1[i];
+		i++;
+		k++;
+	}
+
+
+	while (j < n2) {
+		temp_classes[k] = temp_cl2[j];
+		j++;
+		k++;
+	}
+	delete[]temp_cl1;
+	delete[]temp_cl2;
+}
+
+
+void mergeSortClasses(classes temp_classes[], int l, int r) {
+	if (l >= r) {
+		return;
+	}
+	int m = l + (r - l) / 2;
+	mergeSortClasses(temp_classes, l, m);
+	mergeSortClasses(temp_classes, m + 1, r);
+	mergeClasses(temp_classes, l, m, r);
+}
+
+int removeDuplicatesClasses(classes temp_classes[], int n) {
+
+	if (n == 0 || n == 1)
+		return n;
+
+	classes *temp = new classes[n];
+
+	int j = 0;
+	for (int i = 0; i < n - 1; i++) {
+		if (temp_classes[i].className != temp_classes[i + 1].className) {
+			temp[j++] = temp_classes[i];
+		}
+	}
+
+
+	temp[j++] = temp_classes[n - 1];
+
+	for (int i = 0; i < j; i++)
+		temp_classes[i] = temp[i];
+
+	delete[]temp;
+	return j;
+}
+
 //Ngan
 void addStudentManually(string classname) {
 	ifstream fin;
