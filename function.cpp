@@ -21,7 +21,7 @@ void createClass() {
 	ofstream ofile;
 	ifstream ifile;
 	int n = 0;
-	ifile.open("test1.csv");
+	ifile.open("classes.csv");
 	if (!ifile.is_open()) {
 		cout << "Cannot open file." << endl;
 	}
@@ -37,7 +37,7 @@ void createClass() {
 		cin >> temp_classes[n - 1].className;
 		mergeSortClasses(temp_classes, 0, n - 1);
 		n = removeDuplicatesClasses(temp_classes, n);
-		ofile.open("test1.csv", std::ios_base::out);
+		ofile.open("classes.csv", std::ios_base::out);
 		ofile << n << "\n";
 		for (int i = 0; i < n; i++) {
 			ofile << temp_classes[i].className << "\n";
@@ -504,11 +504,14 @@ void deleteCourse(string year, string semester, course crs) {
 
 
 //An
-void addCourse() {
+void addCourse(string year, string semester) {
 	ofstream ofile;
 	ifstream ifile;
 	int n = 0;
-	ifile.open("test1.csv");
+	string csv = "csv";
+	string file = year + '_' + semester + '.' + csv;
+	// ifile.open("test1.csv");
+	ifile.open(file);
 	if (!ifile.is_open()) {
 		cout << "Cannot open file." << endl;
 	}
