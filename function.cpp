@@ -314,8 +314,20 @@ void addStudentCSV(string fileAdd, string fileIsAdded, student* &students, ifstr
 }
 
 // An
-void createSemester() {
+void createSemester(string year) {
+	ofstream ofile;
+	ofile.open(year + ".txt");
+	string start_date, end_date;
+	string semester;
 
+
+	cout << "Please input number of semester: ";
+	getline(cin, semester, '\n');
+	cout << "Please input start date (Format - dd/mm/yyyy):";
+	getline(cin, start_date, '\n');
+	cout << "Please input end date (Format - dd/mm/yyyy): ";
+	getline(cin, end_date, '\n');
+	ofile << semester << endl << start_date << endl << end_date;
 }
 
 //Ngan
@@ -508,8 +520,8 @@ void addCourse(string year, string semester) {
 	ofstream ofile;
 	ifstream ifile;
 	int n = 0;
-	string csv = "csv";
-	string file = year + '_' + semester + '.' + csv;
+	string txt = "txt";
+	string file = year + '_' + semester + '.' + txt;
 	// ifile.open("test1.csv");
 	ifile.open(file);
 	if (!ifile.is_open()) {
