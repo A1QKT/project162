@@ -816,7 +816,7 @@ void viewListofCourse(string year, string semester) {
     ifstream fin;
     ofstream fout;
     int cnt=-3;
-    fin.open(year+'_'+semester+'_'+'.txt');
+    fin.open(year + '_' + semester + '_' + '.txt');
     if(fin.is_open()){
         string temp;
 		fin >> temp;
