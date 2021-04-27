@@ -5,6 +5,7 @@
 #include<fstream>
 
 void createSchoolyear();
+void createSemester(string year);
 void createClass();
 void addStudentManually(string classname);
 void addStudentCSV(string link, string classname);
