@@ -540,12 +540,10 @@ void addCourse(string year, string semester) {
 
 
 			getline(ifile, temp_input, ',');
-			stringstream credit(temp_input);
-			credit >> temp_courses[i].credit;
+			temp_courses[i].credit = stoi(temp_input);
 
 			getline(ifile, temp_input, ',');
-			stringstream max_st(temp_input);
-			max_st >> temp_courses[i].max;
+			temp_courses[i].max = stoi(temp_input);
 
 			getline(ifile, temp_courses[i].date1, ',');
 			getline(ifile, temp_courses[i].date2, ',');
