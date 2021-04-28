@@ -1254,31 +1254,203 @@ void changePass(login& currentacc)
 
 
 //-----------------------------------Menu---------------------------------
-void StaffMenu(login& currentacc) {
-	int choice;
-	system("cls");
-	/*gotoXY(40, 0);
-	Cyan();*/
-	cout << "Welcome " << endl;
-	//BrightMagenta();
-	cout << "-------Account-------" << endl;
-	//White();
-	cout << "0. Change password." << endl;
-	cout << "1. View profile info" << endl;
-	cout << "Enter: ";
-	cin >> choice;
-	cin.ignore(100, '\n');
-	switch (choice) {
-	case 0:
-		changePass(currentacc);
-		break;
-	case 1:
-		viewProfile(currentacc);
-		break;
-	default:
-		exit(0);
-	}
-}
+//void StaffMenu(login& currentacc, string year, string semester)
+//{
+//	int choice;
+//	do {
+//		system("cls");
+//		BrightMagenta();
+//		cout << "--------------Account--------------" << endl;
+//		White();
+//		cout << "-1. Change password." << endl;
+//		cout << " 1. View profile information." << endl;
+//		cout << " 2. Create new school year." << endl;
+//		cout << " 3. Create new semester." << endl;
+//		cout << " 4. Student session." << endl;
+//		cout << " 5. Course session." << endl;
+//		cout << " 6. Scoreboard session." << endl;
+//		cout << " 0. Exit" << endl;
+//		cout << endl << "Enter: ";
+//		cin >> choice;
+//		cin.ignore(100, '\n');
+//		switch (choice) {
+//		case 0:
+//			exit(0);
+//		case -1:
+//			changePass(currentacc);
+//			break;
+//		case 1:
+//			viewProfile(currentacc);
+//			break;
+//		case 2:
+//			system("cls");
+//			createSchoolyear();
+//			break;
+//		case 3:
+//			system("cls");
+//			updateGPA(year, semester);
+//			createSemester();
+//			getCurrent(year, semester);
+//			break;
+//		case 4:
+//			do {
+//				system("cls");
+//				BrightMagenta();
+//				cout << "-----------Student session-----------" << endl;
+//				White();
+//				cout << " 1. Create new class." << endl;
+//				cout << " 2. List of classes." << endl;
+//				cout << " 3. Add new student manually." << endl;
+//				cout << " 4. Add new student by CSV." << endl;
+//				cout << " 5. List of students in one class." << endl;
+//				cout << "-1. Back to menu." << endl;
+//				cout << endl << "Enter: ";
+//				cin >> choice; cin.ignore(100, '\n');
+//				switch (choice) {
+//				case 1:
+//					system("cls");
+//					createClass();
+//					break;
+//				case 2:
+//					system("cls");
+//					viewListofClass();
+//					break;
+//				case 3:
+//					system("cls");
+//					addStudentManually();
+//					break;
+//				case 4:
+//					system("cls");
+//					addCSV();
+//					break;
+//				case 5:
+//					system("cls");
+//					viewStdClass();
+//					break;
+//				case -1:
+//					break;
+//				default:
+//					Red(); cout << endl << "Invalid input. Please try again.";
+//					Sleep(800);
+//					break;
+//				}
+//			} while (choice != -1);
+//			break;
+//		case 5:
+//			do {
+//				system("cls");
+//				BrightMagenta();
+//				cout << "---------------Course session---------------" << endl;
+//				White();
+//				cout << " 1. Create course registration session." << endl;
+//				cout << " 2. Add new course." << endl;
+//				cout << " 3. View list of course." << endl;
+//				cout << " 4. Update course information." << endl;
+//				cout << " 5. Delete one course." << endl;
+//				cout << " 6. List of student in one course." << endl;
+//				cout << "-1. Back to menu." << endl;
+//				cout << endl << "Enter: ";
+//				cin >> choice; cin.ignore(100, '\n');
+//				switch (choice) {
+//				case 1:
+//					system("cls");
+//					courseRegistation(year, semester);
+//					break;
+//				case 2:
+//					if (!isOktoEdit()) {
+//						Red(); cout << endl << "This function is currently close.";
+//						Sleep(800);
+//						break;
+//					}
+//					system("cls");
+//					addCourse(year, semester);
+//					break;
+//				case 3:
+//					system("cls");
+//					viewListofCourse(year, semester);
+//					break;
+//				case 4:
+//					if (!isOktoEdit()) {
+//						Red(); cout << endl << "This function is currently close.";
+//						Sleep(800);
+//						break;
+//					}
+//					system("cls");
+//					updateCourse(year, semester);
+//					break;
+//				case 5:
+//					if (!isOktoEdit()) {
+//						Red(); cout << endl << "This function is currently close.";
+//						Sleep(800);
+//						break;
+//					}
+//					system("cls");
+//					deleteCourse(year, semester);
+//					break;
+//				case 6:
+//					system("cls");
+//					viewStdCourse(year, semester);
+//				case -1:
+//					break;
+//				default:
+//					Red(); cout << endl << "Invalid input. Please try again.";
+//					Sleep(800);
+//					break;
+//				}
+//			} while (choice != -1);
+//			break;
+//		case 6:
+//			do {
+//				system("cls");
+//				BrightMagenta();
+//				cout << "---------Scoreboard session---------" << endl;
+//				White();
+//				cout << " 1. Export list of students in one course." << endl;
+//				cout << " 2. Import scoreboard of one course." << endl;
+//				cout << " 3. View scoreboard of a course." << endl;
+//				cout << " 4. View scoreboard of a class." << endl;
+//				cout << " 5. Update a student result." << endl;
+//				cout << "-1. Back to menu." << endl;
+//				cout << endl << "Enter: ";
+//				cin >> choice; cin.ignore(100, '\n');
+//				switch (choice) {
+//				case 1:
+//					system("cls");
+//					exportCSV(year, semester);
+//					break;
+//				case 2:
+//					system("cls");
+//					importScoreboard(year, semester);
+//					break;
+//				case 3:
+//					system("cls");
+//					viewScoreboardCourse(year, semester);
+//					break;
+//				case 4:
+//					system("cls");
+//					viewScoreboardClass(year, semester);
+//					break;
+//				case 5:
+//					system("cls");
+//					updateResult(year, semester);
+//					break;
+//				case -1:
+//					break;
+//				default:
+//					Red(); cout << endl << "Invalid input. Please try again.";
+//					Sleep(800);
+//					break;
+//				}
+//			} while (choice != -1);
+//			break;
+//		default:
+//			Red(); cout << endl << "Invalid input. Please try again.";
+//			Sleep(800);
+//			break;
+//		}
+//	} while (choice);
+//}
+
 
 void StudentMenu(login& currentacc) {
 	int choice;
