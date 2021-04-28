@@ -1305,3 +1305,50 @@ void StudentMenu(login& currentacc) {
 		exit(0);
 	}
 }
+
+
+void readMarks(string schoolyear, string semester, string course) {
+	ofstream ofile;
+	ifstream ifile;
+	int n = 0;
+	ifile.open(schoolyear + "_" + semester + "_" + course + ".txt");
+	if (!ifile.is_open()) {
+		cout << "Cannot open file." << endl;
+	}
+	else {
+		ifile >> n;
+		n += 1;
+		mark *list_mark = new mark[n];
+		string temp_input;
+		getline(ifile, temp_input, '\n');
+		for (int i = 0; i < n - 1; i++) {
+			getline(ifile, temp_input, ',');
+			list_mark[i].No = stof(temp_input);
+
+			getline(ifile, list_mark[i].studentID, ',');
+			getline(ifile, list_mark[i].firstname, ',');
+			getline(ifile, list_mark[i].lastname, ',');
+
+
+			getline(ifile, temp_input, ',');
+			list_mark[i].total = stof(temp_input);
+
+			getline(ifile, temp_input, ',');
+			list_mark[i].final = stof(temp_input);
+
+			getline(ifile, temp_input, ',');
+			list_mark[i].midterm = stof(temp_input);
+
+			getline(ifile, temp_input, '\n');
+			list_mark[i].bonus = stof(temp_input);
+		}
+		for (int i = 0; i < n - 1; i++) {
+			cout <<"No. " << list_mark[i].No <<"Student ID: " << list_mark[i].studentID << 
+				" - Name: " << list_mark[i].lastname << " " << list_mark[i].firstname << endl;
+			cout << "Total: " << list_mark[i].total << "; Final: " << list_mark[i].final
+				<< "; Midterm: " << list_mark[i].midterm << "; Bonus: " << list_mark[i].bonus << ".\n";
+		}
+
+		delete[]list_mark;
+	}
+}
