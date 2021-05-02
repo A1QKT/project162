@@ -934,7 +934,7 @@ void viewProfile(login& currentacc)
 }
 
 //khoi 20
-void viewListOfCourse(string courseName){
+void viewListOfStudentCourse(string courseName){
 	ifstream fin;
 	fin.open(courseName);
 	if(fin.is_open()){
